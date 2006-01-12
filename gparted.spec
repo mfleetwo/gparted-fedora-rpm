@@ -1,7 +1,7 @@
 Summary: Gnome Partition Editor
 Name:    gparted
-Version: 0.0.9
-Release: 3%{?dist}
+Version: 0.1
+Release: 1%{?dist}
 Group:   Applications/System
 License: GPL
 URL:     http://gparted.sourceforge.net
@@ -77,6 +77,9 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Wed Jan 11 2006 Deji Akingunola <dakingun@gmail.com> - 0.1-1
+- New release
+
 * Fri Nov 25 2005 Deji Akingunola <dakingun@gmail.com> - 0.0.9-3
 - Use correct source url
 
