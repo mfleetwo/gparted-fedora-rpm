@@ -1,7 +1,7 @@
 Summary: Gnome Partition Editor
 Name:    gparted
-Version: 0.2
-Release: 2%{?dist}
+Version: 0.2.2
+Release: 1%{?dist}
 Group:   Applications/System
 License: GPL
 URL:     http://gparted.sourceforge.net
@@ -77,6 +77,9 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Mon Mar 07 2006 Deji Akingunola <dakingun@gmail.com> - 0.2.2-1
+- New release
+
 * Mon Feb 13 2006 Deji Akingunola <dakingun@gmail.com> - 0.2-2
 - Rebuild for Fedora Extras 5
 
