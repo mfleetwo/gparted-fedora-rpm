@@ -1,14 +1,14 @@
 Summary: Gnome Partition Editor
 Name:    gparted
 Version: 0.2.5
-Release: 2%{?dist}
+Release: 3%{?dist}
 Group:   Applications/System
 License: GPL
 URL:     http://gparted.sourceforge.net
 Source0: http://dl.sf.net/sourceforge/%{name}/%{name}-%{version}.tar.bz2
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: gtkmm24-devel parted-devel 
-BuildRequires: e2fsprogs-devel gettext
+BuildRequires: e2fsprogs-devel gettext perl(XML::Parser) 
 BuildRequires: desktop-file-utils
 
 %description
@@ -77,6 +77,9 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Mon Aug 28 2006 Deji Akingunola <dakingun@gmail.com> - 0.2.5-3
+- Rebuild for FC6
+
 * Mon May 22 2006 Deji Akingunola <dakingun@gmail.com> - 0.2.5-2
 - Rebuild
 
