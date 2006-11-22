@@ -1,11 +1,12 @@
 Summary: Gnome Partition Editor
 Name:    gparted
 Version: 0.3.1
-Release: 2%{?dist}
+Release: 3%{?dist}
 Group:   Applications/System
 License: GPL
 URL:     http://gparted.sourceforge.net
 Source0: http://dl.sf.net/sourceforge/%{name}/%{name}-%{version}.tar.bz2
+Patch0: gparted-configure.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: gtkmm24-devel parted-devel 
 BuildRequires: e2fsprogs-devel gettext perl(XML::Parser) 
@@ -20,6 +21,7 @@ will be detected at runtime and don't require a rebuild of GParted
 
 %prep
 %setup -q
+%patch0 -p0 -b .config
 
 %build
 %configure
@@ -77,6 +79,9 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Wed Nov 23 2006 Deji Akingunola <dakingun@gmail.com> - 0.3.1-3
+- Backport a fix from cvs to properly check for libparted version
+
 * Mon Nov 21 2006 Deji Akingunola <dakingun@gmail.com> - 0.3.1-2
 - Rebuild for new parted
 

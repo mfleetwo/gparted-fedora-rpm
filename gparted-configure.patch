@@ -1,0 +1,47 @@
+--- configure.keep	2006-09-11 05:39:49.000000000 -0400
++++ configure	2006-11-22 02:46:15.000000000 -0500
+@@ -22160,9 +22160,11 @@
+ fi
+ 
+ 
+-{ echo "$as_me:$LINENO: checking for libparted >= 1.7.1" >&5
+-echo $ECHO_N "checking for libparted >= 1.7.1... $ECHO_C" >&6; }
+-LDFLAGS=-lparted
++LIBPARTED_VERSION=1.7.1
++{ echo "$as_me:$LINENO: checking for libparted >= $LIBPARTED_VERSION" >&5
++echo $ECHO_N "checking for libparted >= $LIBPARTED_VERSION... $ECHO_C" >&6; }
++LIBS_save="$LIBS"
++LIBS="-lparted"
+ if test "$cross_compiling" = yes; then
+   { { echo "$as_me:$LINENO: error: cannot run test program while cross compiling
+ See \`config.log' for more details." >&5
+@@ -22181,14 +22183,26 @@
+ 
+ int main ()
+ {
++	int min_major ;
++	int min_minor ;
++	int min_micro ;
+ 	int major ;
+ 	int minor ;
+ 	int micro ;
+ 
+-	if ( sscanf( ped_get_version(), "%d.%d.%d", &major, &minor, &micro ) == 3 )
+-		printf( "Found libparted %s\t", ped_get_version() ) ;
++	if ( sscanf( "$LIBPARTED_VERSION", "%d.%d.%d", &min_major, &min_minor, &min_micro ) == 3 )
++	{
++		if ( sscanf( ped_get_version(), "%d.%d.%d", &major, &minor, &micro ) == 3 )
++		{
++			printf( "Found libparted %s\t", ped_get_version() ) ;
++
++			return ! ((major > min_major) ||
++           			 ((major == min_major) && (minor > min_minor)) ||
++           			 ((major == min_major) && (minor == min_minor) && (micro >= min_micro))) ;
++		}
++	}
+ 
+-        return ! ( major == 1 && minor == 7 && micro >= 1 ) ;
++	return 1 ;
+ }
+ 
+ _ACEOF
