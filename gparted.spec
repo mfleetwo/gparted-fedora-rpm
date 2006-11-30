@@ -1,15 +1,18 @@
 Summary: Gnome Partition Editor
 Name:    gparted
 Version: 0.3.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 Group:   Applications/System
 License: GPL
 URL:     http://gparted.sourceforge.net
 Source0: http://dl.sf.net/sourceforge/%{name}/%{name}-%{version}.tar.bz2
+Patch0: gparted-parted-check.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: gtkmm24-devel parted-devel 
 BuildRequires: e2fsprogs-devel gettext perl(XML::Parser) 
 BuildRequires: desktop-file-utils
+#Temporarily
+BuildRequires: automake autoconf libtool intltool
 
 %description
 GParted stands for Gnome Partition Editor and is a graphical frontend to
@@ -20,8 +23,12 @@ will be detected at runtime and don't require a rebuild of GParted
 
 %prep
 %setup -q
+%patch0 -p0 -b .parted
 
 %build
+aclocal
+automake
+autoconf
 %configure
 make %{?_smp_mflags} 
 
@@ -77,6 +84,9 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Mon Nov 21 2006 Deji Akingunola <dakingun@gmail.com> - 0.3.1-2
+- Rebuild for new parted
+
 * Wed Sep 13 2006 Deji Akingunola <dakingun@gmail.com> - 0.3.1-1
 - New version 0.3.1
 
