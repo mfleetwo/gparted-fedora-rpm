@@ -1,6 +1,6 @@
 Summary: Gnome Partition Editor
 Name:    gparted
-Version: 0.3.2
+Version: 0.3.3
 Release: 1%{?dist}
 Group:   Applications/System
 License: GPL
@@ -77,6 +77,9 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Thu Dec 07 2006 Deji Akingunola <dakingun@gmail.com> - 0.3.3-1
+- Bug fix release
+
 * Tue Dec 05 2006 Deji Akingunola <dakingun@gmail.com> - 0.3.2-1
 - New release
 
