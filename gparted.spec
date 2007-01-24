@@ -1,7 +1,7 @@
 Summary: Gnome Partition Editor
 Name:    gparted
 Version: 0.3.3
-Release: 3%{?dist}
+Release: 4%{?dist}
 Group:   Applications/System
 License: GPL
 URL:     http://gparted.sourceforge.net
@@ -36,7 +36,7 @@ desktop-file-install --delete-original                   \
         --add-category X-Fedora                          \
         %{buildroot}%{_datadir}/applications/%{name}.desktop
 
-#### consolehelper stuff (stolen from extras' synaptic)
+#### consolehelper stuff
 mkdir -p %{buildroot}%{_sbindir}
 mv %{buildroot}%{_bindir}/gparted %{buildroot}%{_sbindir}/
 ln -s consolehelper %{buildroot}%{_bindir}/gparted
@@ -46,19 +46,18 @@ cat << EOF > %{buildroot}%{_sysconfdir}/security/console.apps/gparted
 USER=root
 PROGRAM=%{_sbindir}/gparted
 SESSION=true
-FALLBACK=false
 EOF
 
 mkdir -p %{buildroot}%{_sysconfdir}/pam.d
 cat << EOF > %{buildroot}%{_sysconfdir}/pam.d/gparted
 #%PAM-1.0
-auth       sufficient   /%{_lib}/security/pam_rootok.so
-auth       sufficient   /%{_lib}/security/pam_timestamp.so
-auth       required     /%{_lib}/security/pam_stack.so service=system-auth
-session    required     /%{_lib}/security/pam_permit.so
-session    optional     /%{_lib}/security/pam_xauth.so
-session    optional     /%{_lib}/security/pam_timestamp.so
-account    required     /%{_lib}/security/pam_permit.so
+auth	sufficient	pam_rootok.so
+auth	sufficient	pam_timestamp.so
+auth	include		system-auth
+session	required	pam_permit.so
+session	optional	pam_xauth.so
+session	optional	pam_timestamp.so
+account	required	pam_permit.so
 EOF
 
 %find_lang %{name}
@@ -77,6 +76,9 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Wed Jan 24 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-4
+- Re-write the consolehelpher stuff to work with latest pam
+
 * Tue Jan 16 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-3
 - The new parted is back, rebuild again
 
