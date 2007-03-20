@@ -1,7 +1,7 @@
 Summary: Gnome Partition Editor
 Name:    gparted
 Version: 0.3.3
-Release: 4%{?dist}
+Release: 5%{?dist}
 Group:   Applications/System
 License: GPL
 URL:     http://gparted.sourceforge.net
@@ -76,6 +76,9 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Tue Mar 20 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-5
+- Rebuild for GNU parted-1.8.5
+
 * Wed Jan 24 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-4
 - Re-write the consolehelpher stuff to work with latest pam
 
