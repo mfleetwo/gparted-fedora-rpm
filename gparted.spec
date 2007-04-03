@@ -1,11 +1,15 @@
 Summary: Gnome Partition Editor
 Name:    gparted
 Version: 0.3.3
-Release: 6%{?dist}
+Release: 7%{?dist}
 Group:   Applications/System
 License: GPL
 URL:     http://gparted.sourceforge.net
 Source0: http://dl.sf.net/sourceforge/%{name}/%{name}-%{version}.tar.bz2
+Source1: run-gparted
+Source2: gparted-console.apps
+Source3: gparted-pam.d
+Patch0:	gparted-dont-lock-hal.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: gtkmm24-devel parted-devel 
 BuildRequires: e2fsprogs-devel gettext perl(XML::Parser) 
@@ -20,6 +24,7 @@ will be detected at runtime and don't require a rebuild of GParted
 
 %prep
 %setup -q
+%patch -p0 -b .hal
 
 %build
 %configure
@@ -36,29 +41,20 @@ desktop-file-install --delete-original                   \
         --add-category X-Fedora                          \
         %{buildroot}%{_datadir}/applications/%{name}.desktop
 
+# Create a helper script to launch gparted using hal-lock
+cp %{SOURCE1} %{buildroot}%{_bindir}/
+chmod 755 %{buildroot}%{_bindir}/run-gparted
+
 #### consolehelper stuff
 mkdir -p %{buildroot}%{_sbindir}
 mv %{buildroot}%{_bindir}/gparted %{buildroot}%{_sbindir}/
 ln -s consolehelper %{buildroot}%{_bindir}/gparted
 
 mkdir -p %{buildroot}%{_sysconfdir}/security/console.apps
-cat << EOF > %{buildroot}%{_sysconfdir}/security/console.apps/gparted
-USER=root
-PROGRAM=%{_sbindir}/gparted
-SESSION=true
-EOF
+cp %{SOURCE2} %{buildroot}%{_sysconfdir}/security/console.apps/gparted
 
 mkdir -p %{buildroot}%{_sysconfdir}/pam.d
-cat << EOF > %{buildroot}%{_sysconfdir}/pam.d/gparted
-#%PAM-1.0
-auth	sufficient	pam_rootok.so
-auth	sufficient	pam_timestamp.so
-auth	include		system-auth
-session	required	pam_permit.so
-session	optional	pam_xauth.so
-session	optional	pam_timestamp.so
-account	required	pam_permit.so
-EOF
+cp %{SOURCE3} %{buildroot}%{_sysconfdir}/pam.d/gparted
 
 %find_lang %{name}
 
@@ -69,6 +65,7 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 %doc AUTHORS COPYING ChangeLog README
 %{_bindir}/gparted
+%{_bindir}/run-gparted
 %{_sbindir}/gparted
 %{_datadir}/applications/fedora-gparted.desktop
 %{_datadir}/pixmaps/gparted.png
@@ -76,6 +73,10 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Mon Apr 03 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-7
+- Patch gparted to not create a hal fdi file but use hal-lock instead, this will hopefully fix BZ #215657
+- Clean up the spec file
+
 * Wed Mar 21 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-6
 - Rebuild for GNU parted-1.8.6
 
