@@ -1,7 +1,7 @@
 Summary: Gnome Partition Editor
 Name:    gparted
 Version: 0.3.3
-Release: 7%{?dist}
+Release: 8%{?dist}
 Group:   Applications/System
 License: GPL
 URL:     http://gparted.sourceforge.net
@@ -14,6 +14,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: gtkmm24-devel parted-devel 
 BuildRequires: e2fsprogs-devel gettext perl(XML::Parser) 
 BuildRequires: desktop-file-utils
+Requires: hal >= 0.5.9
 
 %description
 GParted stands for Gnome Partition Editor and is a graphical frontend to
@@ -61,6 +62,13 @@ cp %{SOURCE3} %{buildroot}%{_sysconfdir}/pam.d/gparted
 %clean
 rm -rf %{buildroot}
 
+%preun
+if [ $1 -ge 0 ]; then
+    if [ -a %{_datadir}/hal/fdi/policy/gparted-disable-automount.fdi ]; then
+       rm -rf %{_datadir}/hal/fdi/policy/gparted-disable-automount.fdi
+    fi
+fi
+
 %files -f %{name}.lang
 %defattr(-,root,root,-)
 %doc AUTHORS COPYING ChangeLog README
@@ -73,6 +81,10 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Mon Apr 04 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-8
+- Explicitly require hal >= 0.5.9
+- Remove the hal policy file created by gparted (if it's still there) on upgrade
+
 * Mon Apr 03 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-7
 - Patch gparted to not create a hal fdi file but use hal-lock instead, this will hopefully fix BZ #215657
 - Clean up the spec file
