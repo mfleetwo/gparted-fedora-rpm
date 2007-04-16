@@ -1,7 +1,7 @@
 Summary: Gnome Partition Editor
 Name:    gparted
 Version: 0.3.3
-Release: 8%{?dist}
+Release: 9%{?dist}
 Group:   Applications/System
 License: GPL
 URL:     http://gparted.sourceforge.net
@@ -81,6 +81,9 @@ fi
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Mon Apr 15 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-9
+- Fix the typos and stupidity in the consolehelper and hal-lock files
+
 * Mon Apr 04 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-8
 - Explicitly require hal >= 0.5.9
 - Remove the hal policy file created by gparted (if it's still there) on upgrade
