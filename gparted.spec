@@ -1,7 +1,7 @@
 Summary: Gnome Partition Editor
 Name:    gparted
 Version: 0.3.3
-Release: 9%{?dist}
+Release: 10%{?dist}
 Group:   Applications/System
 License: GPL
 URL:     http://gparted.sourceforge.net
@@ -81,7 +81,10 @@ fi
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
-* Mon Apr 15 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-9
+* Wed Apr 18 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-10
+- Fix another typos in the run-gparted script
+
+* Mon Apr 16 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-9
 - Fix the typos and stupidity in the consolehelper and hal-lock files
 
 * Mon Apr 04 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-8
