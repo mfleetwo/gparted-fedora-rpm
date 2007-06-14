@@ -1,7 +1,7 @@
 Summary: Gnome Partition Editor
 Name:    gparted
 Version: 0.3.3
-Release: 10%{?dist}
+Release: 11%{?dist}
 Group:   Applications/System
 License: GPL
 URL:     http://gparted.sourceforge.net
@@ -10,6 +10,7 @@ Source1: run-gparted
 Source2: gparted-console.apps
 Source3: gparted-pam.d
 Patch0:	gparted-dont-lock-hal.patch
+Patch1: gparted-devices.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: gtkmm24-devel parted-devel 
 BuildRequires: e2fsprogs-devel gettext perl(XML::Parser) 
@@ -25,7 +26,8 @@ will be detected at runtime and don't require a rebuild of GParted
 
 %prep
 %setup -q
-%patch -p0 -b .hal
+%patch0 -p0 -b .hal
+%patch1 -p0 -b .devs
 
 %build
 %configure
@@ -81,6 +83,11 @@ fi
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Mon Jun 11 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-11
+- Apply patch to only detect real devices, useful for correcting gparted slow 
+ startup in situations when floppy drives doesn't exist but are enabled in bios
+ (BZ #208821).
+
 * Wed Apr 18 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-10
 - Fix another typos in the run-gparted script
 
