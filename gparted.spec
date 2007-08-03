@@ -1,9 +1,9 @@
 Summary: Gnome Partition Editor
 Name:    gparted
 Version: 0.3.3
-Release: 11%{?dist}
+Release: 12%{?dist}
 Group:   Applications/System
-License: GPL
+License: GPLv2+
 URL:     http://gparted.sourceforge.net
 Source0: http://dl.sf.net/sourceforge/%{name}/%{name}-%{version}.tar.bz2
 Source1: run-gparted
@@ -83,6 +83,9 @@ fi
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Fri Aug 03 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-12
+- License tag update
+
 * Mon Jun 11 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-11
 - Apply patch to only detect real devices, useful for correcting gparted slow 
  startup in situations when floppy drives don't exist but are enabled in bios
