@@ -83,6 +83,9 @@ fi
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Wed Aug 22 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-12
+- Rebuild
+
 * Fri Aug 03 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-12
 - License tag update
 
