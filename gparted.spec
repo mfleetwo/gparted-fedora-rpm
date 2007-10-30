@@ -1,21 +1,23 @@
-Summary: Gnome Partition Editor
-Name:    gparted
-Version: 0.3.3
-Release: 11%{?dist}
-Group:   Applications/System
-License: GPL
-URL:     http://gparted.sourceforge.net
-Source0: http://dl.sf.net/sourceforge/%{name}/%{name}-%{version}.tar.bz2
-Source1: run-gparted
-Source2: gparted-console.apps
-Source3: gparted-pam.d
-Patch0:	gparted-dont-lock-hal.patch
-Patch1: gparted-devices.patch
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: gtkmm24-devel parted-devel 
-BuildRequires: e2fsprogs-devel gettext perl(XML::Parser) 
-BuildRequires: desktop-file-utils
-Requires: hal >= 0.5.9
+Summary:	Gnome Partition Editor
+Name:		gparted
+Version:	0.3.3
+Release:	13%{?dist}
+Group:		Applications/System
+License:	GPLv2+
+URL:		http://gparted.sourceforge.net
+Source0:	http://dl.sf.net/sourceforge/%{name}/%{name}-%{version}.tar.bz2
+Source1:	run-gparted
+Source2:	gparted-console.apps
+Source3:	gparted-pam.d
+Patch0:		gparted-dont-lock-hal.patch
+Patch1:		gparted-devices.patch
+Patch2:		gparted-realpath-fix.patch
+Patch3:		gparted-refresh_crash-fix.patch
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+BuildRequires:	gtkmm24-devel parted-devel 
+BuildRequires:	e2fsprogs-devel gettext perl(XML::Parser) 
+BuildRequires:	desktop-file-utils
+Requires:	hal >= 0.5.9
 
 %description
 GParted stands for Gnome Partition Editor and is a graphical frontend to
@@ -28,6 +30,8 @@ will be detected at runtime and don't require a rebuild of GParted
 %setup -q
 %patch0 -p0 -b .hal
 %patch1 -p0 -b .devs
+%patch2 -p0 -b .realpath
+%patch3 -p0 -b .refresh
 
 %build
 %configure
@@ -83,9 +87,16 @@ fi
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Tue Oct 30 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-13
+- Fix crash after refresh bug (Bug #309251, patch by Jim Hayward)
+- Fix to use realpath properly (Bug #313281, patch by Jim Hayward)
+
+* Fri Aug 03 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-12
+- License tag update
+
 * Mon Jun 11 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-11
 - Apply patch to only detect real devices, useful for correcting gparted slow 
- startup in situations when floppy drives doesn't exist but are enabled in bios
+ startup in situations when floppy drives don't exist but are enabled in bios
  (BZ #208821).
 
 * Wed Apr 18 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-10
