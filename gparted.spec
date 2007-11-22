@@ -1,7 +1,7 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
 Version:	0.3.3
-Release:	13%{?dist}
+Release:	14%{?dist}
 Group:		Applications/System
 License:	GPLv2+
 URL:		http://gparted.sourceforge.net
@@ -87,6 +87,9 @@ fi
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Thu Nov 22 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-14
+- Fix to detect full path to device/partition pathname (Bug #395071)
+
 * Tue Oct 30 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-13
 - Fix crash after refresh bug (Bug #309251, Fix by Jim Hayward)
 - Fix to use realpath properly (Bug #313281, Fix by Jim Hayward)
