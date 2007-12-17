@@ -1,12 +1,14 @@
 Summary: Gnome Partition Editor
 Name:    gparted
 Version: 0.3.3
-Release: 3%{?dist}
+Release: 4%{?dist}
 Group:   Applications/System
 License: GPL
 URL:     http://gparted.sourceforge.net
 Source0: http://dl.sf.net/sourceforge/%{name}/%{name}-%{version}.tar.bz2
-Patch0: gparted-devices.patch
+Patch0:	 gparted-devices.patch
+Patch1:	 gparted-realpath-fix.patch
+Patch2:	 gparted-refresh_crash-fix.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: gtkmm24-devel parted-devel 
 BuildRequires: e2fsprogs-devel gettext perl(XML::Parser) 
@@ -22,6 +24,8 @@ will be detected at runtime and don't require a rebuild of GParted
 %prep
 %setup -q
 %patch0 -p0 -b .devs
+%patch1 -p0 -b .realpath
+%patch2 -p0 -b .refresh
 
 %build
 %configure
@@ -35,7 +39,6 @@ desktop-file-install --delete-original                   \
         --vendor fedora                                  \
         --dir %{buildroot}%{_datadir}/applications       \
 	--mode 0644				         \
-        --add-category X-Fedora                          \
         %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 #### consolehelper stuff (stolen from extras' synaptic)
@@ -79,6 +82,11 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Sun Dec 16 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-4
+- Branch off for EL-5
+- Apply a couple of patches from F-7 branch
+- Remove the X-Fedora category form the desktop file
+
 * Mon Jun 11 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-3
 - Apply patch to only detect real devices, useful for correcting gparted slow 
  startup in situations when floppy drives doesn't exist but are enabled in bios

@@ -1,0 +1,28 @@
+--- src/GParted_Core.cc	2006-12-05 14:39:31.000000000 -0500
++++ src/GParted_Core.cc.new	2007-11-22 00:01:43.000000000 -0500
+@@ -487,19 +487,23 @@
+ 		while ( getline( proc_partitions, line ) )
+ 			if ( sscanf( line .c_str(), "%*d %*d %*d %255s", c_str ) == 1 )
+ 			{
++				char *real_path = NULL;
++
+ 				line = "/dev/" ; 
+ 				line += c_str ;
+ 				
+ 				//FIXME: it seems realpath is very unsafe to use (manpage)...
++				real_path = realpath( line .c_str(), NULL ) ;
+ 				if ( file_test( line, Glib::FILE_TEST_EXISTS ) &&
+-				     realpath( line .c_str(), c_str ) &&
++				     real_path &&
+ 				     line != c_str )
+ 				{
+ 					//because we can make no assumption about which path libparted will detect
+ 					//we add all combinations.
+ 					alternate_paths[ c_str ] = line ;
+-					alternate_paths[ line ] = c_str ;
+ 				}
++				if ( real_path )
++				  free( real_path ) ;
+ 			}
+ 
+ 		proc_partitions .close() ;
