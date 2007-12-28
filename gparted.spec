@@ -18,6 +18,7 @@ BuildRequires:	gtkmm24-devel parted-devel
 BuildRequires:	e2fsprogs-devel gettext perl(XML::Parser) 
 BuildRequires:	desktop-file-utils
 Requires:	hal >= 0.5.9
+Requires:	vim-common
 
 %description
 GParted stands for Gnome Partition Editor and is a graphical frontend to
@@ -87,6 +88,9 @@ fi
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Fri Dec 28 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-15
+- Explicitly require vim-common (Bug #426769)
+
 * Thu Nov 22 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-14
 - Fix to detect full path to device/partition pathname (Bug #395071)
 
