@@ -1,7 +1,7 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
 Version:	0.3.3
-Release:	14%{?dist}
+Release:	16%{?dist}
 Group:		Applications/System
 License:	GPLv2+
 URL:		http://gparted.sourceforge.net
@@ -88,6 +88,9 @@ fi
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Fri Jan 04 2008 Adam Tkac <atkac redhat com> - 0.3.3-16
+- rebuild against new parted
+
 * Fri Dec 28 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-15
 - Explicitly require vim-common (Bug #426769)
 
