@@ -1,7 +1,7 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
-Version:	0.3.3
-Release:	16%{?dist}
+Version:	0.3.5
+Release:	1%{?dist}
 Group:		Applications/System
 License:	GPLv2+
 URL:		http://gparted.sourceforge.net
@@ -10,9 +10,8 @@ Source1:	run-gparted
 Source2:	gparted-console.apps
 Source3:	gparted-pam.d
 Patch0:		gparted-dont-lock-hal.patch
-Patch1:		gparted-devices.patch
-Patch2:		gparted-realpath-fix.patch
-Patch3:		gparted-refresh_crash-fix.patch
+Patch1:		gparted-realpath-fix.patch
+Patch2:		gparted-refresh_crash-fix.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	gtkmm24-devel parted-devel 
 BuildRequires:	e2fsprogs-devel gettext perl(XML::Parser) 
@@ -30,9 +29,8 @@ will be detected at runtime and don't require a rebuild of GParted
 %prep
 %setup -q
 %patch0 -p0 -b .hal
-%patch1 -p0 -b .devs
-%patch2 -p0 -b .realpath
-%patch3 -p0 -b .refresh
+%patch1 -p0 -b .realpath
+%patch2 -p0 -b .refresh
 
 %build
 %configure
@@ -88,6 +86,9 @@ fi
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Thu Feb 07 2008 Deji Akingunola <dakingun@gmail.com> - 0.3.5-1
+- New upstream version
+
 * Fri Jan 04 2008 Adam Tkac <atkac redhat com> - 0.3.3-16
 - rebuild against new parted
 
