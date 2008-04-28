@@ -5,7 +5,7 @@ Release:	1%{?dist}
 Group:		Applications/System
 License:	GPLv2+
 URL:		http://gparted.sourceforge.net
-Source0:	http://dl.sf.net/sourceforge/%{name}/%{name}-%{version}.tar.bz2
+Source0:	http://dl.sf.net/sourceforge/%{name}/%{name}-%{version}.tar.gz
 Source1:	run-gparted
 Source2:	gparted-console.apps
 Source3:	gparted-pam.d
