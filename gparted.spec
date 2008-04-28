@@ -1,23 +1,22 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
-Version:	0.3.3
-Release:	14%{?dist}
+Version:	0.3.6
+Release:	1%{?dist}
 Group:		Applications/System
 License:	GPLv2+
 URL:		http://gparted.sourceforge.net
-Source0:	http://dl.sf.net/sourceforge/%{name}/%{name}-%{version}.tar.bz2
+Source0:	http://dl.sf.net/sourceforge/%{name}/%{name}-%{version}.tar.gz
 Source1:	run-gparted
 Source2:	gparted-console.apps
 Source3:	gparted-pam.d
 Patch0:		gparted-dont-lock-hal.patch
-Patch1:		gparted-devices.patch
-Patch2:		gparted-realpath-fix.patch
-Patch3:		gparted-refresh_crash-fix.patch
+Patch1:		gparted-refresh_crash-fix.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	gtkmm24-devel parted-devel 
 BuildRequires:	e2fsprogs-devel gettext perl(XML::Parser) 
 BuildRequires:	desktop-file-utils
 Requires:	hal >= 0.5.9
+Requires:	vim-common
 
 %description
 GParted stands for Gnome Partition Editor and is a graphical frontend to
@@ -29,9 +28,7 @@ will be detected at runtime and don't require a rebuild of GParted
 %prep
 %setup -q
 %patch0 -p0 -b .hal
-%patch1 -p0 -b .devs
-%patch2 -p0 -b .realpath
-%patch3 -p0 -b .refresh
+%patch1 -p0 -b .refresh
 
 %build
 %configure
@@ -87,12 +84,15 @@ fi
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Mon Apr 28 2008 Deji Akingunola <dakingun@gmail.com> - 0.3.6-1
+- New Release
+
 * Thu Nov 22 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-14
-- Fix to detect full path to device/partition pathnames (Bug #395071)
+- Fix to detect full path to device/partition pathname (Bug #395071)
 
 * Tue Oct 30 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-13
-- Fix crash after refresh bug (Bug #309251, patch by Jim Hayward)
-- Fix to use realpath properly (Bug #313281, patch by Jim Hayward)
+- Fix crash after refresh bug (Bug #309251, Fix by Jim Hayward)
+- Fix to use realpath properly (Bug #313281, Fix by Jim Hayward)
 
 * Wed Aug 22 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-12
 - Rebuild

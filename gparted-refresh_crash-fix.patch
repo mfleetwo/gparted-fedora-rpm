@@ -8,8 +8,8 @@
  									
  	GParted_Core gparted_core ;
  	std::vector<Gtk::Label *> device_info ;
---- src/Win_GParted.cc	2006-12-01 08:14:23.000000000 -0500
-+++ src/Win_GParted.cc.new	2007-10-30 00:35:47.000000000 -0400
+--- src/Win_GParted.cc	2008-02-04 09:35:47.000000000 -0500
++++ src/Win_GParted.cc.new	2008-02-07 15:34:30.000000000 -0500
 @@ -260,7 +260,8 @@
  	combo_devices .pack_start( treeview_devices_columns .device ) ;
  	combo_devices .pack_start( treeview_devices_columns .size, false ) ;
@@ -36,3 +36,17 @@
  	combo_devices .set_active( current_device ) ;
  }
  
+@@ -916,13 +919,8 @@
+ 
+ void Win_GParted::combo_devices_changed()
+ {
+-	unsigned int old_current_device = current_device;
+ 	//set new current device
+ 	current_device = combo_devices .get_active_row_number() ;
+-	if ( current_device == (unsigned int) -1 )
+-		current_device = old_current_device;
+-	if ( current_device >= devices .size() )
+-		current_device = 0 ;
+ 	set_title( String::ucompose( _("%1 - GParted"), devices[ current_device ] .get_path() ) );
+ 	
+ 	//refresh label_device_info
