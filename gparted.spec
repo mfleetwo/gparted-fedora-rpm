@@ -1,6 +1,6 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
-Version:	0.3.5
+Version:	0.3.6
 Release:	1%{?dist}
 Group:		Applications/System
 License:	GPLv2+
@@ -10,8 +10,7 @@ Source1:	run-gparted
 Source2:	gparted-console.apps
 Source3:	gparted-pam.d
 Patch0:		gparted-dont-lock-hal.patch
-Patch1:		gparted-realpath-fix.patch
-Patch2:		gparted-refresh_crash-fix.patch
+Patch1:		gparted-refresh_crash-fix.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	gtkmm24-devel parted-devel 
 BuildRequires:	e2fsprogs-devel gettext perl(XML::Parser) 
@@ -29,8 +28,7 @@ will be detected at runtime and don't require a rebuild of GParted
 %prep
 %setup -q
 %patch0 -p0 -b .hal
-%patch1 -p0 -b .realpath
-%patch2 -p0 -b .refresh
+%patch1 -p0 -b .refresh
 
 %build
 %configure
@@ -86,6 +84,9 @@ fi
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Mon Apr 28 2008 Deji Akingunola <dakingun@gmail.com> - 0.3.6-1
+- New Release
+
 * Thu Feb 07 2008 Deji Akingunola <dakingun@gmail.com> - 0.3.5-1
 - New upstream version
 
