@@ -1,22 +1,19 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
-Version:	0.3.6
+Version:	0.3.7
 Release:	1%{?dist}
 Group:		Applications/System
 License:	GPLv2+
 URL:		http://gparted.sourceforge.net
-Source0:	http://dl.sf.net/sourceforge/%{name}/%{name}-%{version}.tar.gz
-Source1:	run-gparted
-Source2:	gparted-console.apps
-Source3:	gparted-pam.d
-Patch0:		gparted-dont-lock-hal.patch
-Patch1:		gparted-refresh_crash-fix.patch
+Source0:	http://dl.sf.net/sourceforge/%{name}/%{name}-%{version}.tar.bz2
+Source1:	gparted-console.apps
+Source2:	gparted-pam.d
+Patch0:		gparted-refresh_crash-fix.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	gtkmm24-devel parted-devel 
 BuildRequires:	e2fsprogs-devel gettext perl(XML::Parser) 
 BuildRequires:	desktop-file-utils
 Requires:	hal >= 0.5.9
-Requires:	vim-common
 
 %description
 GParted stands for Gnome Partition Editor and is a graphical frontend to
@@ -27,8 +24,7 @@ will be detected at runtime and don't require a rebuild of GParted
 
 %prep
 %setup -q
-%patch0 -p0 -b .hal
-%patch1 -p0 -b .refresh
+%patch0 -p0 -b .refresh
 
 %build
 %configure
@@ -44,21 +40,17 @@ desktop-file-install --delete-original                   \
 	--mode 0644				         \
         --add-category X-Fedora                          \
         %{buildroot}%{_datadir}/applications/%{name}.desktop
-
-# Create a helper script to launch gparted using hal-lock
-cp %{SOURCE1} %{buildroot}%{_bindir}/
-chmod 755 %{buildroot}%{_bindir}/run-gparted
+sed -i 's#sbin#bin#' %{buildroot}%{_datadir}/applications/fedora-%{name}.desktop
 
 #### consolehelper stuff
-mkdir -p %{buildroot}%{_sbindir}
-mv %{buildroot}%{_bindir}/gparted %{buildroot}%{_sbindir}/
+mkdir -p %{buildroot}%{_bindir}
 ln -s consolehelper %{buildroot}%{_bindir}/gparted
 
 mkdir -p %{buildroot}%{_sysconfdir}/security/console.apps
-cp %{SOURCE2} %{buildroot}%{_sysconfdir}/security/console.apps/gparted
+cp %{SOURCE1} %{buildroot}%{_sysconfdir}/security/console.apps/gparted
 
 mkdir -p %{buildroot}%{_sysconfdir}/pam.d
-cp %{SOURCE3} %{buildroot}%{_sysconfdir}/pam.d/gparted
+cp %{SOURCE2} %{buildroot}%{_sysconfdir}/pam.d/gparted
 
 %find_lang %{name}
 
@@ -76,14 +68,18 @@ fi
 %defattr(-,root,root,-)
 %doc AUTHORS COPYING ChangeLog README
 %{_bindir}/gparted
-%{_bindir}/run-gparted
 %{_sbindir}/gparted
+%{_sbindir}/gpartedbin
 %{_datadir}/applications/fedora-gparted.desktop
 %{_datadir}/pixmaps/gparted.png
+%{_mandir}/man8/gparted.*
 %config(noreplace) %{_sysconfdir}/pam.d/gparted
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Wed Apr 30 2008 Deji Akingunola <dakingun@gmail.com> - 0.3.7-1
+- New upstream version
+
 * Mon Apr 28 2008 Deji Akingunola <dakingun@gmail.com> - 0.3.6-1
 - New Release
 
