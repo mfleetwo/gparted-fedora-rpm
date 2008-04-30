@@ -1,22 +1,19 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
-Version:	0.3.6
+Version:	0.3.7
 Release:	1%{?dist}
 Group:		Applications/System
 License:	GPLv2+
 URL:		http://gparted.sourceforge.net
-Source0:	http://dl.sf.net/sourceforge/%{name}/%{name}-%{version}.tar.gz
-Source1:	run-gparted
-Source2:	gparted-console.apps
-Source3:	gparted-pam.d
-Patch0:		gparted-dont-lock-hal.patch
-Patch1:		gparted-refresh_crash-fix.patch
+Source0:	http://dl.sf.net/sourceforge/%{name}/%{name}-%{version}.tar.bz2
+Source1:	gparted-console.apps
+Source2:	gparted-pam.d
+Patch0:		gparted-refresh_crash-fix.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	gtkmm24-devel parted-devel 
 BuildRequires:	e2fsprogs-devel gettext perl(XML::Parser) 
 BuildRequires:	desktop-file-utils
 Requires:	hal >= 0.5.9
-Requires:	vim-common
 
 %description
 GParted stands for Gnome Partition Editor and is a graphical frontend to
@@ -27,8 +24,7 @@ will be detected at runtime and don't require a rebuild of GParted
 
 %prep
 %setup -q
-%patch0 -p0 -b .hal
-%patch1 -p0 -b .refresh
+%patch0 -p0 -b .refresh
 
 %build
 %configure
@@ -44,21 +40,17 @@ desktop-file-install --delete-original                   \
 	--mode 0644				         \
         --add-category X-Fedora                          \
         %{buildroot}%{_datadir}/applications/%{name}.desktop
-
-# Create a helper script to launch gparted using hal-lock
-cp %{SOURCE1} %{buildroot}%{_bindir}/
-chmod 755 %{buildroot}%{_bindir}/run-gparted
+sed -i 's#sbin#bin#' %{buildroot}%{_datadir}/applications/fedora-%{name}.desktop
 
 #### consolehelper stuff
-mkdir -p %{buildroot}%{_sbindir}
-mv %{buildroot}%{_bindir}/gparted %{buildroot}%{_sbindir}/
+mkdir -p %{buildroot}%{_bindir}
 ln -s consolehelper %{buildroot}%{_bindir}/gparted
 
 mkdir -p %{buildroot}%{_sysconfdir}/security/console.apps
-cp %{SOURCE2} %{buildroot}%{_sysconfdir}/security/console.apps/gparted
+cp %{SOURCE1} %{buildroot}%{_sysconfdir}/security/console.apps/gparted
 
 mkdir -p %{buildroot}%{_sysconfdir}/pam.d
-cp %{SOURCE3} %{buildroot}%{_sysconfdir}/pam.d/gparted
+cp %{SOURCE2} %{buildroot}%{_sysconfdir}/pam.d/gparted
 
 %find_lang %{name}
 
@@ -76,32 +68,30 @@ fi
 %defattr(-,root,root,-)
 %doc AUTHORS COPYING ChangeLog README
 %{_bindir}/gparted
-%{_bindir}/run-gparted
 %{_sbindir}/gparted
+%{_sbindir}/gpartedbin
 %{_datadir}/applications/fedora-gparted.desktop
 %{_datadir}/pixmaps/gparted.png
+%{_mandir}/man8/gparted.*
 %config(noreplace) %{_sysconfdir}/pam.d/gparted
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
-* Mon Apr 28 2008 Deji Akingunola <dakingun@gmail.com> - 0.3.6-1
-- New Release
+* Wed Apr 30 2008 Deji Akingunola <dakingun@gmail.com> - 0.3.7-1
+- New upstream version
+
+* Fri Mar 28 2008 Deji Akingunola <dakingun@gmail.com> - 0.3.6-1
+- New upstream version
 
 * Thu Feb 07 2008 Deji Akingunola <dakingun@gmail.com> - 0.3.5-1
 - New upstream version
-
-* Fri Jan 04 2008 Adam Tkac <atkac redhat com> - 0.3.3-16
-- rebuild against new parted
-
-* Fri Dec 28 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-15
-- Explicitly require vim-common (Bug #426769)
 
 * Thu Nov 22 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-14
 - Fix to detect full path to device/partition pathname (Bug #395071)
 
 * Tue Oct 30 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-13
-- Fix crash after refresh bug (Bug #309251, Fix by Jim Hayward)
-- Fix to use realpath properly (Bug #313281, Fix by Jim Hayward)
+- Fix crash after refresh bug (Bug #309251, patch by Jim Hayward)
+- Fix to use realpath properly (Bug #313281, patch by Jim Hayward)
 
 * Wed Aug 22 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-12
 - Rebuild
@@ -203,7 +193,7 @@ fi
 * Fri Nov 25 2005 Deji Akingunola <dakingun@gmail.com> - 0.0.9-2
 - Add more buildrequires and cleanup spec file
 
-* Fri Nov 25 2005 Deji Akingunola <dakingun@gmail.com> - 0.0.9-1
+* Fri Nov 25 2005 Deji Akingunola <dakingun@gmail.com> - 0.0.9-1 
 - Update to latest released version
 
 * Wed Oct 26 2005 Deji Akingunola <dakingun@gmail.com> - 0.0.8-1

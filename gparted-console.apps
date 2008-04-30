@@ -1,3 +1,3 @@
 USER=root
-PROGRAM=/usr/bin/run-gparted
+PROGRAM=/usr/sbin/gparted
 SESSION=true
