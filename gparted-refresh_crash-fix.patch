@@ -1,6 +1,6 @@
---- include/Win_GParted.h	2006-11-25 09:56:30.000000000 -0500
-+++ include/Win_GParted.h.new	2007-10-30 00:37:29.000000000 -0400
-@@ -233,6 +233,7 @@
+--- include/Win_GParted.h	2008-04-29 10:17:27.000000000 -0400
++++ include/Win_GParted.h.new	2008-04-30 09:43:49.000000000 -0400
+@@ -238,6 +238,7 @@
  	unsigned short new_count;//new_count keeps track of the new created partitions
  	FS fs ;
  	bool OPERATIONSLIST_OPEN ;
@@ -8,9 +8,9 @@
  									
  	GParted_Core gparted_core ;
  	std::vector<Gtk::Label *> device_info ;
---- src/Win_GParted.cc	2008-02-04 09:35:47.000000000 -0500
-+++ src/Win_GParted.cc.new	2008-02-07 15:34:30.000000000 -0500
-@@ -260,7 +260,8 @@
+--- src/Win_GParted.cc	2008-04-29 10:17:27.000000000 -0400
++++ src/Win_GParted.cc.new	2008-04-30 09:42:28.000000000 -0400
+@@ -263,7 +263,8 @@
  	combo_devices .pack_start( treeview_devices_columns .device ) ;
  	combo_devices .pack_start( treeview_devices_columns .size, false ) ;
  	
@@ -20,7 +20,7 @@
  
  	hbox_toolbar .pack_start( combo_devices, Gtk::PACK_SHRINK ) ;
  }
-@@ -502,6 +503,7 @@
+@@ -510,6 +511,7 @@
  
  void Win_GParted::refresh_combo_devices()
  {
@@ -28,7 +28,7 @@
  	liststore_devices ->clear() ;
  	
  	menu = manage( new Gtk::Menu() ) ;
-@@ -538,6 +540,7 @@
+@@ -546,6 +548,7 @@
  		menubar_main .items()[ 0 ] .get_submenu() ->items()[ 1 ] .set_submenu( *menu ) ;
  	}
  	
@@ -36,7 +36,7 @@
  	combo_devices .set_active( current_device ) ;
  }
  
-@@ -916,13 +919,8 @@
+@@ -929,13 +932,8 @@
  
  void Win_GParted::combo_devices_changed()
  {
