@@ -38,7 +38,7 @@ desktop-file-install --delete-original                   \
 	--mode 0644				         \
         --add-category X-Fedora                          \
         %{buildroot}%{_datadir}/applications/%{name}.desktop
-	%{buildroot}%{_datadir}/applications/fedora-%{name}.desktop
+sed -i 's#sbin#bin#' %{buildroot}%{_datadir}/applications/fedora-%{name}.desktop
 
 #### consolehelper stuff
 mkdir -p %{buildroot}%{_bindir}
