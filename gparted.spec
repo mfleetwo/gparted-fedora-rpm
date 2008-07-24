@@ -1,6 +1,6 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
-Version:	0.3.7
+Version:	0.3.8
 Release:	1%{?dist}
 Group:		Applications/System
 License:	GPLv2+
@@ -8,7 +8,6 @@ URL:		http://gparted.sourceforge.net
 Source0:	http://dl.sf.net/sourceforge/%{name}/%{name}-%{version}.tar.bz2
 Source1:	gparted-console.apps
 Source2:	gparted-pam.d
-Patch0:		gparted-refresh_crash-fix.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	gtkmm24-devel parted-devel 
 BuildRequires:	e2fsprogs-devel gettext perl(XML::Parser) 
@@ -24,7 +23,6 @@ will be detected at runtime and don't require a rebuild of GParted
 
 %prep
 %setup -q
-%patch0 -p0 -b .refresh
 
 %build
 %configure
@@ -40,7 +38,7 @@ desktop-file-install --delete-original                   \
 	--mode 0644				         \
         --add-category X-Fedora                          \
         %{buildroot}%{_datadir}/applications/%{name}.desktop
-sed -i 's#sbin#bin#' %{buildroot}%{_datadir}/applications/fedora-%{name}.desktop
+	%{buildroot}%{_datadir}/applications/fedora-%{name}.desktop
 
 #### consolehelper stuff
 mkdir -p %{buildroot}%{_bindir}
@@ -77,6 +75,9 @@ fi
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Sun Jul 13 2008 Deji Akingunola <dakingun@gmail.com> - 0.3.8-1
+- New upstream version
+
 * Wed Apr 30 2008 Deji Akingunola <dakingun@gmail.com> - 0.3.7-1
 - New upstream version
 
