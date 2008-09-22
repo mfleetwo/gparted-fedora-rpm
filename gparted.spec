@@ -11,7 +11,7 @@ Source2:	gparted-pam.d
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	gtkmm24-devel parted-devel 
 BuildRequires:	e2fsprogs-devel gettext perl(XML::Parser) 
-BuildRequires:	desktop-file-utils
+BuildRequires:	desktop-file-utils gnome-doc-utils
 BuildRequires:  scrollkeeper
 Requires(post): scrollkeeper
 Requires(postun): scrollkeeper
