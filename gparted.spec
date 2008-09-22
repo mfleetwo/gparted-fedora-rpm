@@ -1,18 +1,20 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
-Version:	0.3.7
+Version:	0.3.9
 Release:	1%{?dist}
 Group:		Applications/System
 License:	GPLv2+
 URL:		http://gparted.sourceforge.net
-Source0:	http://dl.sf.net/sourceforge/%{name}/%{name}-%{version}.tar.bz2
+Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
 Source1:	gparted-console.apps
 Source2:	gparted-pam.d
-Patch0:		gparted-refresh_crash-fix.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	gtkmm24-devel parted-devel 
 BuildRequires:	e2fsprogs-devel gettext perl(XML::Parser) 
 BuildRequires:	desktop-file-utils
+BuildRequires:  scrollkeeper
+Requires(post): scrollkeeper
+Requires(postun): scrollkeeper
 Requires:	hal >= 0.5.9
 
 %description
@@ -24,7 +26,6 @@ will be detected at runtime and don't require a rebuild of GParted
 
 %prep
 %setup -q
-%patch0 -p0 -b .refresh
 
 %build
 %configure
@@ -64,6 +65,12 @@ if [ $1 -ge 0 ]; then
     fi
 fi
 
+%post
+scrollkeeper-update -q -o %{_datadir}/omf/%{name} || :
+
+%postun
+scrollkeeper-update -q || :
+
 %files -f %{name}.lang
 %defattr(-,root,root,-)
 %doc AUTHORS COPYING ChangeLog README
@@ -72,11 +79,16 @@ fi
 %{_sbindir}/gpartedbin
 %{_datadir}/applications/fedora-gparted.desktop
 %{_datadir}/pixmaps/gparted.png
+%{_datadir}/gnome/help/gparted/
+%{_datadir}/omf/gparted/
 %{_mandir}/man8/gparted.*
 %config(noreplace) %{_sysconfdir}/pam.d/gparted
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Mon Sep 22 2008 Deji Akingunola <dakingun@gmail.com> - 0.3.9-1
+- New upstream version
+
 * Wed Apr 30 2008 Deji Akingunola <dakingun@gmail.com> - 0.3.7-1
 - New upstream version
 
