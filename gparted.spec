@@ -1,7 +1,7 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
 Version:	0.3.9
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 Group:		Applications/System
 License:	GPLv2+
 URL:		http://gparted.sourceforge.net
@@ -11,7 +11,7 @@ Source2:	gparted-pam.d
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	gtkmm24-devel parted-devel 
 BuildRequires:	e2fsprogs-devel gettext perl(XML::Parser) 
-BuildRequires:	desktop-file-utils
+BuildRequires:	desktop-file-utils gnome-doc-utils
 BuildRequires:  scrollkeeper
 Requires(post): scrollkeeper
 Requires(postun): scrollkeeper
