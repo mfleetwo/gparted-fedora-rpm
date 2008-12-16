@@ -1,7 +1,7 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
-Version:	0.3.9
-Release:	1%{?dist}.1
+Version:	0.4.1
+Release:	1%{?dist}
 Group:		Applications/System
 License:	GPLv2+
 URL:		http://gparted.sourceforge.net
@@ -61,8 +61,18 @@ rm -rf %{buildroot}
 %post
 scrollkeeper-update -q -o %{_datadir}/omf/%{name} || :
 
+touch --no-create %{_datadir}/icons/hicolor || :
+if [ -x %{_bindir}/gtk-update-icon-cache ]; then
+   %{_bindir}/gtk-update-icon-cache --quiet %{_datadir}/icons/hicolor || :
+fi
+
 %postun
 scrollkeeper-update -q || :
+
+touch --no-create %{_datadir}/icons/hicolor || :
+if [ -x %{_bindir}/gtk-update-icon-cache ]; then
+   %{_bindir}/gtk-update-icon-cache --quiet %{_datadir}/icons/hicolor || :
+fi
 
 %files -f %{name}.lang
 %defattr(-,root,root,-)
@@ -71,7 +81,7 @@ scrollkeeper-update -q || :
 %{_sbindir}/gparted
 %{_sbindir}/gpartedbin
 %{_datadir}/applications/fedora-gparted.desktop
-%{_datadir}/pixmaps/gparted.png
+%{_datadir}/icons/hicolor/*/apps/gparted.*
 %{_datadir}/gnome/help/gparted/
 %{_datadir}/omf/gparted/
 %{_mandir}/man8/gparted.*
@@ -79,6 +89,9 @@ scrollkeeper-update -q || :
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Mon Dec 15 2008 Deji Akingunola <dakingun@gmail.com> - 0.4.1-1
+- New upstream version
+
 * Mon Sep 22 2008 Deji Akingunola <dakingun@gmail.com> - 0.3.9-1
 - New upstream version
 - Finally removed the 'preun' call that ensures the old gparted fdi (pre-FC6)
