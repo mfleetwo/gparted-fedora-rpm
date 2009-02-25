@@ -1,7 +1,7 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
 Version:	0.4.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 Group:		Applications/System
 License:	GPLv2+
 URL:		http://gparted.sourceforge.net
@@ -89,6 +89,9 @@ fi
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Tue Feb 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.4.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
+
 * Thu Feb 12 2009 Deji Akingunola <dakingun@gmail.com> - 0.4.3-1
 - New upstream version, fixes the automounting bug (RH #468953)
 
