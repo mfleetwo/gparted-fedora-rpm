@@ -1,6 +1,6 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
-Version:	0.4.3
+Version:	0.4.4
 Release:	1%{?dist}
 Group:		Applications/System
 License:	GPLv2+
@@ -89,6 +89,9 @@ fi
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Sun Apr 12 2009 Deji Akingunola <dakingun@gmail.com> - 0.4.4-1
+- New upstream version
+
 * Thu Feb 12 2009 Deji Akingunola <dakingun@gmail.com> - 0.4.3-1
 - New upstream version, fixes the automounting bug (RH #468953)
 
