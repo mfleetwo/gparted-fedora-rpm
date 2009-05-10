@@ -1,6 +1,6 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
-Version:	0.4.4
+Version:	0.4.5
 Release:	1%{?dist}
 Group:		Applications/System
 License:	GPLv2+
@@ -62,17 +62,17 @@ rm -rf %{buildroot}
 scrollkeeper-update -q -o %{_datadir}/omf/%{name} || :
 
 touch --no-create %{_datadir}/icons/hicolor || :
-if [ -x %{_bindir}/gtk-update-icon-cache ]; then
-   %{_bindir}/gtk-update-icon-cache --quiet %{_datadir}/icons/hicolor || :
-fi
 
 %postun
 scrollkeeper-update -q || :
 
-touch --no-create %{_datadir}/icons/hicolor || :
-if [ -x %{_bindir}/gtk-update-icon-cache ]; then
-   %{_bindir}/gtk-update-icon-cache --quiet %{_datadir}/icons/hicolor || :
+if [ $1 -eq 0 ] ; then
+    touch --no-create %{_datadir}/icons/hicolor &>/dev/null
+    gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 fi
+
+%posttrans
+gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 %files -f %{name}.lang
 %defattr(-,root,root,-)
@@ -89,7 +89,10 @@ fi
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
-* Sun Apr 12 2009 Deji Akingunola <dakingun@gmail.com> - 0.4.4-1
+* Sat May 09 2009 Deji Akingunola <dakingun@gmail.com> - 0.4.5-1
+- New upstream version
+
+* Mon Apr 06 2009 Deji Akingunola <dakingun@gmail.com> - 0.4.4-1
 - New upstream version
 
 * Tue Feb 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.4.3-2
