@@ -1,7 +1,7 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
 Version:	0.4.5
-Release:	1%{?dist}
+Release:	2%{?dist}
 Group:		Applications/System
 License:	GPLv2+
 URL:		http://gparted.sourceforge.net
@@ -10,7 +10,7 @@ Source1:	gparted-console.apps
 Source2:	gparted-pam.d
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	gtkmm24-devel parted-devel 
-BuildRequires:	e2fsprogs-devel gettext perl(XML::Parser) 
+BuildRequires:	libuuid-devel gettext perl(XML::Parser) 
 BuildRequires:	desktop-file-utils gnome-doc-utils
 BuildRequires:  scrollkeeper
 Requires(post): scrollkeeper
@@ -89,6 +89,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Fri Jul 10 2009 Deji Akingunola <dakingun@gmail.com> - 0.4.5-2
+- Change e2fsprog-devel BR to libuuid-devel, and rebuild for parted soname bump
+
 * Sat May 09 2009 Deji Akingunola <dakingun@gmail.com> - 0.4.5-1
 - New upstream version
 
