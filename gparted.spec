@@ -33,6 +33,8 @@ make %{?_smp_mflags}
 rm -rf %{buildroot}
 make DESTDIR=%{buildroot} install
 
+sed -i 's#_X-GNOME-FullName#X-GNOME-FullName#' %{buildroot}%{_datadir}/applications/%{name}.desktop
+
 desktop-file-install --delete-original                   \
         --vendor fedora                                  \
         --dir %{buildroot}%{_datadir}/applications       \
