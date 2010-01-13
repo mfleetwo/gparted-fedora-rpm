@@ -1,6 +1,6 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
-Version:	0.4.8
+Version:	0.5.0
 Release:	1%{?dist}
 Group:		Applications/System
 License:	GPLv2+
@@ -12,9 +12,7 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	gtkmm24-devel parted-devel 
 BuildRequires:	libuuid-devel gettext perl(XML::Parser) 
 BuildRequires:	desktop-file-utils gnome-doc-utils
-BuildRequires:  scrollkeeper
-Requires(post): scrollkeeper
-Requires(postun): scrollkeeper
+BuildRequires:  rarian-compat
 Requires:	hal >= 0.5.9
 
 %description
@@ -59,13 +57,9 @@ cp %{SOURCE2} %{buildroot}%{_sysconfdir}/pam.d/gparted
 rm -rf %{buildroot}
 
 %post
-scrollkeeper-update -q -o %{_datadir}/omf/%{name} || :
-
 touch --no-create %{_datadir}/icons/hicolor || :
 
 %postun
-scrollkeeper-update -q || :
-
 if [ $1 -eq 0 ] ; then
     touch --no-create %{_datadir}/icons/hicolor &>/dev/null
     gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
@@ -89,6 +83,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Wed Jan 13 2010 Deji Akingunola <dakingun@gmail.com> - 0.5.0-1
+- Update to version 0.5.0
+
 * Mon Nov 16 2009 Deji Akingunola <dakingun@gmail.com> - 0.4.8-1
 - New upstream version
 
