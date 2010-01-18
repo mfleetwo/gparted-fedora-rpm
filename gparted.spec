@@ -1,18 +1,19 @@
 Summary: Gnome Partition Editor
 Name:    gparted
-Version: 0.3.3
-Release: 4%{?dist}
+Version: 0.4.8
+Release: 1%{?dist}
 Group:   Applications/System
-License: GPL
+License: GPLv2+
 URL:     http://gparted.sourceforge.net
-Source0: http://dl.sf.net/sourceforge/%{name}/%{name}-%{version}.tar.bz2
-Patch0:	 gparted-devices.patch
-Patch1:	 gparted-realpath-fix.patch
-Patch2:	 gparted-refresh_crash-fix.patch
+Source0: http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
+Patch0:  gparted-epel-build-workaround.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: gtkmm24-devel parted-devel 
 BuildRequires: e2fsprogs-devel gettext perl(XML::Parser) 
-BuildRequires: desktop-file-utils
+BuildRequires: desktop-file-utils gnome-doc-utils
+BuildRequires:  scrollkeeper
+Requires(post): scrollkeeper
+Requires(postun): scrollkeeper
 
 %description
 GParted stands for Gnome Partition Editor and is a graphical frontend to
@@ -23,9 +24,7 @@ will be detected at runtime and don't require a rebuild of GParted
 
 %prep
 %setup -q
-%patch0 -p0 -b .devs
-%patch1 -p0 -b .realpath
-%patch2 -p0 -b .refresh
+%patch0 -p0 -b .epel
 
 %build
 %configure
@@ -35,15 +34,19 @@ make %{?_smp_mflags}
 rm -rf %{buildroot}
 make DESTDIR=%{buildroot} install
 
+sed -i 's#_X-GNOME-FullName#X-GNOME-FullName#' %{buildroot}%{_datadir}/applications/%{name}.desktop
+
 desktop-file-install --delete-original                   \
         --vendor fedora                                  \
         --dir %{buildroot}%{_datadir}/applications       \
 	--mode 0644				         \
         %{buildroot}%{_datadir}/applications/%{name}.desktop
+sed -i 's#sbin#bin#' %{buildroot}%{_datadir}/applications/fedora-%{name}.desktop
 
-#### consolehelper stuff (stolen from extras' synaptic)
-mkdir -p %{buildroot}%{_sbindir}
-mv %{buildroot}%{_bindir}/gparted %{buildroot}%{_sbindir}/
+rm -rf %{buildroot}/var
+
+#### consolehelper stuff
+mkdir -p %{buildroot}%{_bindir}
 ln -s consolehelper %{buildroot}%{_bindir}/gparted
 
 mkdir -p %{buildroot}%{_sysconfdir}/security/console.apps
@@ -71,17 +74,49 @@ EOF
 %clean
 rm -rf %{buildroot}
 
+%preun
+if [ $1 -ge 0 ]; then
+    if [ -a %{_datadir}/hal/fdi/policy/gparted-disable-automount.fdi ]; then
+       rm -rf %{_datadir}/hal/fdi/policy/gparted-disable-automount.fdi
+    fi
+fi
+
+%post
+scrollkeeper-update -q -o %{_datadir}/omf/%{name} || :
+
+touch --no-create %{_datadir}/icons/hicolor || :
+if [ -x %{_bindir}/gtk-update-icon-cache ]; then
+   %{_bindir}/gtk-update-icon-cache --quiet %{_datadir}/icons/hicolor || :
+fi
+
+%postun
+scrollkeeper-update -q || :
+
+touch --no-create %{_datadir}/icons/hicolor || :
+if [ -x %{_bindir}/gtk-update-icon-cache ]; then
+   %{_bindir}/gtk-update-icon-cache --quiet %{_datadir}/icons/hicolor || :
+fi
+
 %files -f %{name}.lang
 %defattr(-,root,root,-)
 %doc AUTHORS COPYING ChangeLog README
 %{_bindir}/gparted
 %{_sbindir}/gparted
+%{_sbindir}/gpartedbin
 %{_datadir}/applications/fedora-gparted.desktop
-%{_datadir}/pixmaps/gparted.png
+%{_datadir}/icons/hicolor/*/apps/gparted.*
+%{_datadir}/gnome/help/gparted/
+%{_datadir}/omf/gparted/
+%{_mandir}/man8/gparted.*
 %config(noreplace) %{_sysconfdir}/pam.d/gparted
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Mon Jan 18 2010 Deji Akingunola <dakingun@gmail.com> - 0.4.8-1
+- New upstream version
+- Remove the hal policy file created by gparted (if it's still there)
+ on upgrade (Should fix BZ #550590)
+
 * Sun Dec 16 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-4
 - Branch off for EL-5
 - Apply a couple of patches from F-7 branch
