@@ -1,7 +1,7 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
-Version:	0.5.2
-Release:	1.1%{?dist}
+Version:	0.6.0
+Release:	1%{?dist}
 Group:		Applications/System
 License:	GPLv2+
 URL:		http://gparted.sourceforge.net
@@ -35,11 +35,12 @@ make DESTDIR=%{buildroot} install
 
 sed -i 's#_X-GNOME-FullName#X-GNOME-FullName#' %{buildroot}%{_datadir}/applications/%{name}.desktop
 
-desktop-file-install --delete-original                   \
-        --vendor fedora                                  \
-        --dir %{buildroot}%{_datadir}/applications       \
-	--mode 0644				         \
-        --add-category X-Fedora                          \
+desktop-file-install --delete-original			\
+        --vendor fedora					\
+        --dir %{buildroot}%{_datadir}/applications	\
+	--mode 0644					\
+        --add-category X-Fedora				\
+        --add-category GTK				\
         %{buildroot}%{_datadir}/applications/%{name}.desktop
 sed -i 's#sbin#bin#' %{buildroot}%{_datadir}/applications/fedora-%{name}.desktop
 
@@ -85,6 +86,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Mon Jun 21 2010 Deji Akingunola <dakingun@gmail.com> - 0.6.0-1
+- Update to version 0.6.0
+
 * Thu Apr 01 2010 Mike McGrath <mmcgrath@redhat.com> - 0.5.2-1.1
 - Rebuilt to fix broken parted dep
 
