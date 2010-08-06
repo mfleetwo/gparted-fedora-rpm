@@ -1,6 +1,6 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
-Version:	0.6.0
+Version:	0.6.2
 Release:	1%{?dist}
 Group:		Applications/System
 License:	GPLv2+
@@ -13,7 +13,6 @@ BuildRequires:	gtkmm24-devel parted-devel
 BuildRequires:	libuuid-devel gettext perl(XML::Parser) 
 BuildRequires:	desktop-file-utils gnome-doc-utils
 BuildRequires:  rarian-compat
-Requires:	hal >= 0.5.9
 
 %description
 GParted stands for Gnome Partition Editor and is a graphical frontend to
@@ -86,6 +85,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Fri Aug 06 2010 Deji Akingunola <dakingun@gmail.com> - 0.6.2-1
+- Update to version 0.6.2
+
 * Mon Jun 21 2010 Deji Akingunola <dakingun@gmail.com> - 0.6.0-1
 - Update to version 0.6.0
 
