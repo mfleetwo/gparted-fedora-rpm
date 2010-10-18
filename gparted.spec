@@ -1,6 +1,6 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
-Version:	0.6.2
+Version:	0.6.4
 Release:	1%{?dist}
 Group:		Applications/System
 License:	GPLv2+
@@ -85,6 +85,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Sun Oct 17 2010 Deji Akingunola <dakingun@gmail.com> - 0.6.4-1
+- Update to version 0.6.4
+
 * Fri Aug 06 2010 Deji Akingunola <dakingun@gmail.com> - 0.6.2-1
 - Update to version 0.6.2
 
