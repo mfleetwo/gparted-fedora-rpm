@@ -1,7 +1,7 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
-Version:	0.7.1
-Release:	2%{?dist}
+Version:	0.8.0
+Release:	1%{?dist}
 Group:		Applications/System
 License:	GPLv2+
 URL:		http://gparted.sourceforge.net
@@ -11,7 +11,7 @@ Source2:	gparted-pam.d
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	gtkmm24-devel parted-devel 
 BuildRequires:	libuuid-devel gettext perl(XML::Parser) 
-BuildRequires:	desktop-file-utils gnome-doc-utils
+BuildRequires:	desktop-file-utils gnome-doc-utils intltool
 BuildRequires:  rarian-compat
 
 %description
@@ -85,6 +85,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Thu Feb 17 2011 Deji Akingunola <dakingun@gmail.com> - 0.8.0-1
+- Update to version 0.8.0
+
 * Tue Feb 08 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.7.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
 
