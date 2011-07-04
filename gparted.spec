@@ -1,18 +1,21 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
 Version:	0.8.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 Group:		Applications/System
 License:	GPLv2+
 URL:		http://gparted.sourceforge.net
 Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
 Source1:	gparted-console.apps
 Source2:	gparted-pam.d
+Patch0:		gparted-libparted_3-config.patch
+Patch1:		gparted-libparted_3-src.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	gtkmm24-devel parted-devel 
 BuildRequires:	libuuid-devel gettext perl(XML::Parser) 
 BuildRequires:	desktop-file-utils gnome-doc-utils intltool
 BuildRequires:  rarian-compat
+BuildRequires:  automake autoconf gnome-common
 
 %description
 GParted stands for Gnome Partition Editor and is a graphical frontend to
@@ -23,9 +26,13 @@ will be detected at runtime and don't require a rebuild of GParted
 
 %prep
 %setup -q
+%patch0 -p1
+%patch1 -p1 
 
 %build
-%configure
+PKG_NAME="gparted" REQUIRED_AUTOMAKE_VERSION=1.9 USE_GNOME2_MACROS=1 USE_COMMON_DOC_BUILD=yes . gnome-autogen.sh
+
+%configure --enable-libparted-dmraid
 make %{?_smp_mflags} 
 
 %install
@@ -85,6 +92,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Sun Jun 26 2011 Deji Akingunola <dakingun@gmail.com> - 0.8.1-2
+- Apply upstream patch to build with parted-3.0
+
 * Sun Jun 26 2011 Deji Akingunola <dakingun@gmail.com> - 0.8.1-1
 - Update to version 0.8.1
 
