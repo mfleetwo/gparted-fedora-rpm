@@ -1,7 +1,7 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
 Version:	0.10.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Group:		Applications/System
 License:	GPLv2+
 URL:		http://gparted.sourceforge.net
@@ -86,6 +86,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Fri Jan 13 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.10.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
+
 * Mon Dec 05 2011 Deji Akingunola <dakingun@gmail.com> - 0.10.0-1
 - Update to version 0.10.0
 
