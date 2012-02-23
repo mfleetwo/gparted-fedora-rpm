@@ -8,7 +8,6 @@ URL:		http://gparted.sourceforge.net
 Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
 Source1:	gparted-console.apps
 Source2:	gparted-pam.d
-Patch0:		gparted-fixdso.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	gtkmm24-devel parted-devel 
 BuildRequires:	libuuid-devel gettext perl(XML::Parser) 
@@ -25,7 +24,6 @@ will be detected at runtime and don't require a rebuild of GParted
 
 %prep
 %setup -q
-%patch0 -p0
 
 %build
 %configure --enable-libparted-dmraid
