@@ -1,6 +1,6 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
-Version:	0.11.0
+Version:	0.12.0
 Release:	1%{?dist}
 Group:		Applications/System
 License:	GPLv2+
@@ -8,7 +8,6 @@ URL:		http://gparted.sourceforge.net
 Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
 Source1:	gparted-console.apps
 Source2:	gparted-pam.d
-Patch0:		gparted-fixdso.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	gtkmm24-devel parted-devel 
 BuildRequires:	libuuid-devel gettext perl(XML::Parser) 
@@ -25,7 +24,6 @@ will be detected at runtime and don't require a rebuild of GParted
 
 %prep
 %setup -q
-%patch0 -p0
 
 %build
 %configure --enable-libparted-dmraid
@@ -88,6 +86,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Wed Feb 22 2012 Deji Akingunola <dakingun@gmail.com> - 0.12.0-1
+- Update to version 0.12.0
+
 * Fri Jan 27 2012 Deji Akingunola <dakingun@gmail.com> - 0.11.0-1
 - Update to version 0.11.0
 
