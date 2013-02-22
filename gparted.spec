@@ -8,7 +8,6 @@ URL:		http://gparted.sourceforge.net
 Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
 Source1:	gparted-console.apps
 Source2:	gparted-pam.d
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	gtkmm24-devel parted-devel 
 BuildRequires:	libuuid-devel gettext perl(XML::Parser) 
 BuildRequires:	desktop-file-utils gnome-doc-utils intltool
@@ -30,21 +29,17 @@ will be detected at runtime and don't require a rebuild of GParted
 make %{?_smp_mflags} 
 
 %install
-rm -rf %{buildroot}
 make DESTDIR=%{buildroot} install
 
 sed -i 's#_X-GNOME-FullName#X-GNOME-FullName#' %{buildroot}%{_datadir}/applications/%{name}.desktop
 
-%if 0%{?fedora} && 0%{?fedora} < 18
 desktop-file-install --delete-original			\
-        --vendor fedora					\
         --dir %{buildroot}%{_datadir}/applications	\
 	--mode 0644					\
         --add-category X-Fedora				\
         --add-category GTK				\
         %{buildroot}%{_datadir}/applications/%{name}.desktop
-%endif
-sed -i 's#sbin#bin#' %{buildroot}%{_datadir}/applications/fedora-%{name}.desktop
+sed -i 's#sbin#bin#' %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 #### consolehelper stuff
 mkdir -p %{buildroot}%{_bindir}
@@ -57,9 +52,6 @@ mkdir -p %{buildroot}%{_sysconfdir}/pam.d
 cp %{SOURCE2} %{buildroot}%{_sysconfdir}/pam.d/gparted
 
 %find_lang %{name}
-
-%clean
-rm -rf %{buildroot}
 
 %post
 touch --no-create %{_datadir}/icons/hicolor || :
@@ -78,7 +70,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_bindir}/gparted
 %{_sbindir}/gparted
 %{_sbindir}/gpartedbin
-%{_datadir}/applications/fedora-gparted.desktop
+%{_datadir}/applications/gparted.desktop
 %{_datadir}/icons/hicolor/*/apps/gparted.*
 %{_datadir}/gnome/help/gparted/
 %{_datadir}/omf/gparted/
@@ -89,6 +81,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %changelog
 * Fri Feb 22 2013 Deji Akingunola <dakingun@gmail.com> - 0.14.1-1
 - Update to version 0.14.1
+- Clean-up spec
 
 * Thu Feb 14 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.13.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
