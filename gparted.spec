@@ -1,7 +1,7 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
-Version:	0.13.1
-Release:	2%{?dist}
+Version:	0.14.1
+Release:	1%{?dist}
 Group:		Applications/System
 License:	GPLv2+
 URL:		http://gparted.sourceforge.net
@@ -35,6 +35,7 @@ make DESTDIR=%{buildroot} install
 
 sed -i 's#_X-GNOME-FullName#X-GNOME-FullName#' %{buildroot}%{_datadir}/applications/%{name}.desktop
 
+%if 0%{?fedora} && 0%{?fedora} < 18
 desktop-file-install --delete-original			\
         --vendor fedora					\
         --dir %{buildroot}%{_datadir}/applications	\
@@ -42,6 +43,7 @@ desktop-file-install --delete-original			\
         --add-category X-Fedora				\
         --add-category GTK				\
         %{buildroot}%{_datadir}/applications/%{name}.desktop
+%endif
 sed -i 's#sbin#bin#' %{buildroot}%{_datadir}/applications/fedora-%{name}.desktop
 
 #### consolehelper stuff
@@ -72,7 +74,6 @@ fi
 gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 %files -f %{name}.lang
-%defattr(-,root,root,-)
 %doc AUTHORS COPYING ChangeLog README
 %{_bindir}/gparted
 %{_sbindir}/gparted
@@ -86,6 +87,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Fri Feb 22 2013 Deji Akingunola <dakingun@gmail.com> - 0.14.1-1
+- Update to version 0.14.1
+
 * Thu Feb 14 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.13.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
 
