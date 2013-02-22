@@ -1,6 +1,6 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
-Version:	0.13.1
+Version:	0.14.1
 Release:	1%{?dist}
 Group:		Applications/System
 License:	GPLv2+
@@ -8,7 +8,6 @@ URL:		http://gparted.sourceforge.net
 Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
 Source1:	gparted-console.apps
 Source2:	gparted-pam.d
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	gtkmm24-devel parted-devel 
 BuildRequires:	libuuid-devel gettext perl(XML::Parser) 
 BuildRequires:	desktop-file-utils gnome-doc-utils intltool
@@ -30,7 +29,6 @@ will be detected at runtime and don't require a rebuild of GParted
 make %{?_smp_mflags} 
 
 %install
-rm -rf %{buildroot}
 make DESTDIR=%{buildroot} install
 
 sed -i 's#_X-GNOME-FullName#X-GNOME-FullName#' %{buildroot}%{_datadir}/applications/%{name}.desktop
@@ -55,9 +53,6 @@ mkdir -p %{buildroot}%{_sysconfdir}/pam.d
 cp %{SOURCE2} %{buildroot}%{_sysconfdir}/pam.d/gparted
 
 %find_lang %{name}
-
-%clean
-rm -rf %{buildroot}
 
 %post
 touch --no-create %{_datadir}/icons/hicolor || :
@@ -86,6 +81,10 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Fri Feb 22 2013 Deji Akingunola <dakingun@gmail.com> - 0.14.1-1
+- Update to version 0.14.1
+- Clean-up spec
+
 * Mon Sep 24 2012 Deji Akingunola <dakingun@gmail.com> - 0.13.1-1
 - Update to 0.13.1
 
