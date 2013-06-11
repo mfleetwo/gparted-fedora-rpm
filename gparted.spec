@@ -1,6 +1,6 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
-Version:	0.14.1
+Version:	0.16.1
 Release:	1%{?dist}
 Group:		Applications/System
 License:	GPLv2+
@@ -34,13 +34,12 @@ make DESTDIR=%{buildroot} install
 sed -i 's#_X-GNOME-FullName#X-GNOME-FullName#' %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 desktop-file-install --delete-original			\
-        --vendor fedora					\
         --dir %{buildroot}%{_datadir}/applications	\
 	--mode 0644					\
         --add-category X-Fedora				\
         --add-category GTK				\
         %{buildroot}%{_datadir}/applications/%{name}.desktop
-sed -i 's#sbin#bin#' %{buildroot}%{_datadir}/applications/fedora-%{name}.desktop
+sed -i 's#sbin#bin#' %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 #### consolehelper stuff
 mkdir -p %{buildroot}%{_bindir}
@@ -67,12 +66,11 @@ fi
 gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 %files -f %{name}.lang
-%defattr(-,root,root,-)
 %doc AUTHORS COPYING ChangeLog README
 %{_bindir}/gparted
 %{_sbindir}/gparted
 %{_sbindir}/gpartedbin
-%{_datadir}/applications/fedora-gparted.desktop
+%{_datadir}/applications/gparted.desktop
 %{_datadir}/icons/hicolor/*/apps/gparted.*
 %{_datadir}/gnome/help/gparted/
 %{_datadir}/omf/gparted/
@@ -81,6 +79,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Mon Jun 10 2013 Deji Akingunola <dakingun@gmail.com> - 0.16.1-1
+- Update to version 0.16.1
+
 * Fri Feb 22 2013 Deji Akingunola <dakingun@gmail.com> - 0.14.1-1
 - Update to version 0.14.1
 - Clean-up spec
