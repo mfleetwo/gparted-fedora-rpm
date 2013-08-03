@@ -1,7 +1,7 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
 Version:	0.16.1
-Release:	2%{?dist}
+Release:	3%{?dist}
 Group:		Applications/System
 License:	GPLv2+
 URL:		http://www.gparted.org
@@ -80,6 +80,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.16.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
+
 * Tue Jun 11 2013 Deji Akingunola <dakingun@gmail.com> - 0.16.1-2
 - Explicitly requires usermode-gtk (BZ #827728) 
 
