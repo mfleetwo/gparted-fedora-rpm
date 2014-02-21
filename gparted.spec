@@ -1,19 +1,19 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
-Version:	0.16.1
-Release:	3%{?dist}
+Version:	0.18.0
+Release:	1%{?dist}
 Group:		Applications/System
 License:	GPLv2+
 URL:		http://www.gparted.org
 Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
-Source1:	gparted-console.apps
-Source2:	gparted-pam.d
+Source1:	org.fedoraproject.pkexec.run-gparted.policy
+Source2:	gparted_polkit
 BuildRequires:	gtkmm24-devel parted-devel 
 BuildRequires:	libuuid-devel gettext perl(XML::Parser) 
 BuildRequires:	desktop-file-utils gnome-doc-utils intltool
 BuildRequires:  rarian-compat
 BuildRequires:  pkgconfig
-Requires:	usermode-gtk
+Requires:	polkit-gnome
 
 %description
 GParted stands for Gnome Partition Editor and is a graphical frontend to
@@ -24,15 +24,17 @@ will be detected at runtime and don't require a rebuild of GParted
 
 %prep
 %setup -q
+sed -i "s:@gksuprog@ @installdir@/gparted %f:@installdir@/gparted_polkit %f:g" gparted.desktop.in.in
 
 %build
-%configure --enable-libparted-dmraid
+%configure --enable-libparted-dmraid --enable-online-resize
 make %{?_smp_mflags} 
 
 %install
 make DESTDIR=%{buildroot} install
 
 sed -i 's#_X-GNOME-FullName#X-GNOME-FullName#' %{buildroot}%{_datadir}/applications/%{name}.desktop
+sed -i 's#sbin#bin#' %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 desktop-file-install --delete-original			\
         --dir %{buildroot}%{_datadir}/applications	\
@@ -40,17 +42,12 @@ desktop-file-install --delete-original			\
         --add-category X-Fedora				\
         --add-category GTK				\
         %{buildroot}%{_datadir}/applications/%{name}.desktop
-sed -i 's#sbin#bin#' %{buildroot}%{_datadir}/applications/%{name}.desktop
 
-#### consolehelper stuff
+mkdir -p %{buildroot}%{_datadir}/polkit-1/actions/
+cp %{SOURCE1} %{buildroot}%{_datadir}/polkit-1/actions/
+
 mkdir -p %{buildroot}%{_bindir}
-ln -s consolehelper %{buildroot}%{_bindir}/gparted
-
-mkdir -p %{buildroot}%{_sysconfdir}/security/console.apps
-cp %{SOURCE1} %{buildroot}%{_sysconfdir}/security/console.apps/gparted
-
-mkdir -p %{buildroot}%{_sysconfdir}/pam.d
-cp %{SOURCE2} %{buildroot}%{_sysconfdir}/pam.d/gparted
+%{__install} -p -m755 %{SOURCE2} %{buildroot}%{_bindir}/
 
 %find_lang %{name}
 
@@ -68,20 +65,21 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 %files -f %{name}.lang
 %doc AUTHORS COPYING ChangeLog README
-%{_bindir}/gparted
 %{_sbindir}/gparted
+%{_bindir}/gparted_polkit
 %{_sbindir}/gpartedbin
 %{_datadir}/applications/gparted.desktop
 %{_datadir}/icons/hicolor/*/apps/gparted.*
+%{_datadir}/polkit-1/actions/org.fedoraproject.pkexec.run-gparted.policy
+%{_datadir}/appdata/gparted.appdata.xml
 %{_datadir}/gnome/help/gparted/
 %{_datadir}/omf/gparted/
 %{_mandir}/man8/gparted.*
-%config(noreplace) %{_sysconfdir}/pam.d/gparted
-%config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
-* Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.16.1-3
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
+* Thu Feb 20 2014 Deji Akingunola <dakingun@gmail.com> - 0.18.0-1
+- Update to version 0.18.0
+- Replace consolehelper with PolicyKit for authenticating users
 
 * Tue Jun 11 2013 Deji Akingunola <dakingun@gmail.com> - 0.16.1-2
 - Explicitly requires usermode-gtk (BZ #827728) 
@@ -237,11 +235,11 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 * Mon Apr 16 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-9
 - Fix the typos and stupidity in the consolehelper and hal-lock files
 
-* Mon Apr 04 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-8
+* Wed Apr 04 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-8
 - Explicitly require hal >= 0.5.9
 - Remove the hal policy file created by gparted (if it's still there) on upgrade
 
-* Mon Apr 03 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-7
+* Tue Apr 03 2007 Deji Akingunola <dakingun@gmail.com> - 0.3.3-7
 - Patch gparted to not create a hal fdi file but use hal-lock instead, this will hopefully fix BZ #215657
 - Clean up the spec file
 
@@ -272,10 +270,10 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 * Mon Nov 27 2006 Deji Akingunola <dakingun@gmail.com> - 0.3.1-4
 - Complete fix for parted check and apply patch on configure.in
 
-* Wed Nov 23 2006 Deji Akingunola <dakingun@gmail.com> - 0.3.1-3
+* Thu Nov 23 2006 Deji Akingunola <dakingun@gmail.com> - 0.3.1-3
 - Backport a fix from cvs to properly check for libparted version
 
-* Mon Nov 21 2006 Deji Akingunola <dakingun@gmail.com> - 0.3.1-2
+* Tue Nov 21 2006 Deji Akingunola <dakingun@gmail.com> - 0.3.1-2
 - Rebuild for new parted
 
 * Wed Sep 13 2006 Deji Akingunola <dakingun@gmail.com> - 0.3.1-1
@@ -302,7 +300,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 * Thu Mar 30 2006 Deji Akingunola <dakingun@gmail.com> - 0.2.3-1
 - Update to newer version
 
-* Mon Mar 07 2006 Deji Akingunola <dakingun@gmail.com> - 0.2.2-1
+* Tue Mar 07 2006 Deji Akingunola <dakingun@gmail.com> - 0.2.2-1
 - New release
 
 * Mon Feb 13 2006 Deji Akingunola <dakingun@gmail.com> - 0.2-2
