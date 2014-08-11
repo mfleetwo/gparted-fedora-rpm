@@ -1,7 +1,7 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
 Version:	0.19.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 Group:		Applications/System
 License:	GPLv2+
 URL:		http://www.gparted.org
@@ -77,6 +77,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_mandir}/man8/gparted.*
 
 %changelog
+* Mon Aug 11 2014 Mukundan Ragavan <nonamedotc@gmail.com> - 0.19.1-2
+- rebuilt to update
+
 * Sun Aug 10 2014 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.19.1-1
 - Updated to latest upstream release
 
