@@ -1,6 +1,6 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
-Version:	0.6.0
+Version:	0.19.1
 Release:	1%{?dist}
 Group:		Applications/System
 License:	GPLv2+
@@ -34,6 +34,9 @@ make %{?_smp_mflags}
 %install
 rm -rf %{buildroot}
 make DESTDIR=%{buildroot} install
+
+# removing appdata file for EL-6 branch
+rm -rf %{buildroot}/usr/share/appdata
 
 sed -i 's#_X-GNOME-FullName#X-GNOME-FullName#' %{buildroot}%{_datadir}/applications/%{name}.desktop
 
@@ -92,6 +95,10 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Mon Nov 17 2014 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.19.1-1
+- Update to latest upstream version
+- Major version update discussed in bug#1133315
+
 * Mon Jun 21 2010 Deji Akingunola <dakingun@gmail.com> - 0.6.0-1
 - Update to version 0.6.0
 
