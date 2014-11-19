@@ -13,6 +13,7 @@ BuildRequires:	gtkmm24-devel parted-devel
 BuildRequires:	libuuid-devel gettext perl(XML::Parser) 
 BuildRequires:	desktop-file-utils gnome-doc-utils
 BuildRequires:  scrollkeeper
+BuildRequires:	intltool
 Requires(post): scrollkeeper
 Requires(postun): scrollkeeper
 Requires:	hal >= 0.5.9
@@ -95,6 +96,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Tue Nov 18 2014 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.19.1-2
+- Added BR:intltool
+
 * Mon Nov 17 2014 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.19.1-1
 - Update to latest upstream version
 - Major version update discussed in bug#1133315
