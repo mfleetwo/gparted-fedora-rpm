@@ -1,7 +1,7 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
 Version:	0.19.1
-Release:	3%{?dist}
+Release:	4%{?dist}
 Group:		Applications/System
 License:	GPLv2+
 URL:		http://www.gparted.org
@@ -32,6 +32,8 @@ make %{?_smp_mflags}
 
 %install
 make DESTDIR=%{buildroot} install
+#remove appdata files
+rm -rf %{buildroot}/usr/share/appdata
 
 sed -i 's#_X-GNOME-FullName#X-GNOME-FullName#' %{buildroot}%{_datadir}/applications/%{name}.desktop
 sed -i 's#sbin#bin#' %{buildroot}%{_datadir}/applications/%{name}.desktop
@@ -77,6 +79,10 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_mandir}/man8/gparted.*
 
 %changelog
+* Mon Nov 24 2014 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.19.1-4
+- Fix spec file error
+- Removed appdata directory on EPEL-7 branch
+
 * Sun Aug 23 2014 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.19.1-3
 - Removed enable-online-resize option since parted <3.2 does not support this
 - Fixes bz #1121350
