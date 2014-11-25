@@ -1,7 +1,7 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
 Version:	0.19.1
-Release:	1%{?dist}
+Release:	3%{?dist}
 Group:		Applications/System
 License:	GPLv2+
 URL:		http://gparted.sourceforge.net
@@ -96,6 +96,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Mon Nov 24 2014 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.19.1-3
+- Fix spec file errors
+
 * Tue Nov 18 2014 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.19.1-2
 - Added BR:intltool
 
