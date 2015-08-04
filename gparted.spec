@@ -1,7 +1,7 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
-Version:	0.22.0
-Release:	3%{?dist}
+Version:	0.23.0
+Release:	1%{?dist}
 Group:		Applications/System
 License:	GPLv2+
 URL:		http://www.gparted.org
@@ -11,9 +11,11 @@ Source2:	gparted_polkit
 BuildRequires:	gtkmm24-devel parted-devel 
 BuildRequires:	libuuid-devel gettext perl(XML::Parser) 
 BuildRequires:	desktop-file-utils gnome-doc-utils intltool
-BuildRequires:  rarian-compat
-BuildRequires:  pkgconfig
+BuildRequires:	rarian-compat
+BuildRequires:	pkgconfig
 Requires:	polkit-gnome
+Requires:	hdparm
+Requires:	btrfs-progs
 
 %description
 GParted stands for Gnome Partition Editor and is a graphical frontend to
@@ -77,6 +79,10 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_mandir}/man8/gparted.*
 
 %changelog
+* Mon Aug 03 2015 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.23.0-1
+- Update to 0.23.0
+- Added btrfs-progs and hdparm as dependencies
+
 * Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.22.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
