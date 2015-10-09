@@ -32,7 +32,7 @@ will be detected at runtime and don't require a rebuild of GParted
 %prep
 %setup -q
 sed -i "s:@gksuprog@ @installdir@/gparted %f:@installdir@/gparted_polkit %f:g" gparted.desktop.in.in
-%patch0 -p 1
+%patch0
 
 %build
 %configure --enable-libparted-dmraid --enable-online-resize
