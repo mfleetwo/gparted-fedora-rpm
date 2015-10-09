@@ -1,13 +1,20 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
 Version:	0.19.1
-Release:	5%{?dist}
+Release:	6%{?dist}
 Group:		Applications/System
 License:	GPLv2+
 URL:		http://www.gparted.org
 Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
 Source1:	org.fedoraproject.pkexec.run-gparted.policy
 Source2:	gparted_polkit
+# patch to fix one sector error
+# source of patch - upstream bug report and Fedora bug report
+# https://bugzilla.redhat.com/show_bug.cgi?id=1269440
+# https://git.gnome.org/browse/gparted/commit/?id=8a952cd4a9fea6d395c05f46d075aaf368011653
+
+Patch0:		one-sector-error.patch
+
 BuildRequires:	gtkmm24-devel parted-devel 
 BuildRequires:	libuuid-devel gettext perl(XML::Parser) 
 BuildRequires:	desktop-file-utils gnome-doc-utils intltool
@@ -25,6 +32,7 @@ will be detected at runtime and don't require a rebuild of GParted
 %prep
 %setup -q
 sed -i "s:@gksuprog@ @installdir@/gparted %f:@installdir@/gparted_polkit %f:g" gparted.desktop.in.in
+%patch0
 
 %build
 %configure --enable-libparted-dmraid
@@ -79,6 +87,10 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_mandir}/man8/gparted.*
 
 %changelog
+* Thu Oct 08 2015 Mukundan Ragavab <nonamedotc@fedoraproject.org> - 0.19.1-6
+- Fix "one sector error" patch
+- Fixes #1269440
+
 * Mon Nov 24 2014 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.19.1-5
 - Fix spec file error
 - Removed appdata directory on EPEL-7 branch
