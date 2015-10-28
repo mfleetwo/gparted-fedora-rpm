@@ -75,6 +75,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_sbindir}/gpartedbin
 %{_datadir}/applications/gparted.desktop
 %{_datadir}/icons/hicolor/*/apps/gparted.*
+%{_datadir}/pixmaps/%{name}.png
 %{_datadir}/polkit-1/actions/org.fedoraproject.pkexec.run-gparted.policy
 %{_datadir}/appdata/gparted.appdata.xml
 %{_datadir}/gnome/help/gparted/
