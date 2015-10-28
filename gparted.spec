@@ -1,7 +1,7 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
-Version:	0.23.0
-Release:	3%{?dist}
+Version:	0.24.0
+Release:	1%{?dist}
 Group:		Applications/System
 License:	GPLv2+
 URL:		http://www.gparted.org
@@ -11,7 +11,7 @@ Source2:	gparted_polkit
 # https://bugzilla.redhat.com/show_bug.cgi?id=1258891
 # Upstream bug report and source of patch
 # https://bugzilla.gnome.org/show_bug.cgi?id=755022
-Patch0:		gparted_0.23_nvme.patch
+## Patch0:		gparted_0.23_nvme.patch
 BuildRequires:	gtkmm24-devel parted-devel 
 BuildRequires:	libuuid-devel gettext perl(XML::Parser) 
 BuildRequires:	desktop-file-utils gnome-doc-utils intltool
@@ -28,7 +28,7 @@ will be detected at runtime and don't require a rebuild of GParted
 
 %prep
 %setup -q
-%patch0
+##%%patch0
 sed -i "s:@gksuprog@ @installdir@/gparted %f:@installdir@/gparted_polkit %f:g" gparted.desktop.in.in
 
 %build
@@ -42,11 +42,11 @@ sed -i 's#_X-GNOME-FullName#X-GNOME-FullName#' %{buildroot}%{_datadir}/applicati
 sed -i 's#sbin#bin#' %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 desktop-file-install --delete-original			\
-        --dir %{buildroot}%{_datadir}/applications	\
+	--dir %{buildroot}%{_datadir}/applications	\
 	--mode 0644					\
-        --add-category X-Fedora				\
-        --add-category GTK				\
-        %{buildroot}%{_datadir}/applications/%{name}.desktop
+	--add-category X-Fedora				\
+	--add-category GTK				\
+	%{buildroot}%{_datadir}/applications/%{name}.desktop
 
 mkdir -p %{buildroot}%{_datadir}/polkit-1/actions/
 cp %{SOURCE1} %{buildroot}%{_datadir}/polkit-1/actions/
@@ -82,6 +82,11 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_mandir}/man8/gparted.*
 
 %changelog
+* Wed Oct 28 2015 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.24.0-1
+- Update to 0.24.0
+- Remove upstreamed NVME patch
+- spec clean up
+
 * Sat Sep 19 2015 Mukundan Ragavan <nonamedotc@gmail.com> - 0.23.0-3
 - Add patch to correctly recognize NVME devices
 - Fixes bug #1258891
