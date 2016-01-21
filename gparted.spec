@@ -1,11 +1,11 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
-Version:	0.24.0
+Version:	0.25.0
 Release:	1%{?dist}
 Group:		Applications/System
 License:	GPLv2+
 URL:		http://www.gparted.org
-Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
+Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
 Source1:	org.fedoraproject.pkexec.run-gparted.policy
 Source2:	gparted_polkit
 # https://bugzilla.redhat.com/show_bug.cgi?id=1258891
@@ -83,6 +83,10 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_mandir}/man8/gparted.*
 
 %changelog
+* Wed Jan 20 2016 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.25.0-1
+- Updated to 0.25.0
+- source tarball is now gz - so source fixed in spec
+
 * Wed Oct 28 2015 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.24.0-1
 - Update to 0.24.0
 - Remove upstreamed NVME patch
