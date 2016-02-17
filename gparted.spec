@@ -75,7 +75,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_sbindir}/gpartedbin
 %{_datadir}/applications/gparted.desktop
 %{_datadir}/icons/hicolor/*/apps/gparted.*
-%{_datadir}/pixmaps/%{name}.png
+%if 0%{fedora} < 24
+	%{_datadir}/pixmaps/%{name}.png
+%endif
 %{_datadir}/polkit-1/actions/org.fedoraproject.pkexec.run-gparted.policy
 %{_datadir}/appdata/gparted.appdata.xml
 %{_datadir}/gnome/help/gparted/
@@ -83,6 +85,10 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_mandir}/man8/gparted.*
 
 %changelog
+* Tue Feb 16 2016 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.25.0-3
+- Make pixmaps gparted.png conditional to < Fedora 24
+- Fixes Rawhide/F24 FTBFS
+
 * Wed Feb 03 2016 Fedora Release Engineering <releng@fedoraproject.org> - 0.25.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 
