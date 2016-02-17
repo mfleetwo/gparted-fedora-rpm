@@ -1,7 +1,7 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
 Version:	0.25.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 Group:		Applications/System
 License:	GPLv2+
 URL:		http://www.gparted.org
