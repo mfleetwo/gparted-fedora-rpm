@@ -1,7 +1,7 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
 Version:	0.25.0
-Release:	3%{?dist}
+Release:	4%{?dist}
 Group:		Applications/System
 License:	GPLv2+
 URL:		http://www.gparted.org
@@ -17,7 +17,7 @@ BuildRequires:	libuuid-devel gettext perl(XML::Parser)
 BuildRequires:	desktop-file-utils gnome-doc-utils intltool
 BuildRequires:	rarian-compat
 BuildRequires:	pkgconfig
-Requires:	polkit-gnome
+Requires:	PolicyKit-authentication-agent
 
 %description
 GParted stands for Gnome Partition Editor and is a graphical frontend to
@@ -85,6 +85,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_mandir}/man8/gparted.*
 
 %changelog
+* Mon Mar 21 2016 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.25.0-4
+- Change requires to PolicyKit-authentication-agent
+
 * Tue Feb 16 2016 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.25.0-3
 - Make pixmaps gparted.png conditional to < Fedora 24
 - Fixes Rawhide/F24 FTBFS
