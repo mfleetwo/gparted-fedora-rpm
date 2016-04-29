@@ -1,7 +1,7 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
-Version:	0.25.0
-Release:	4%{?dist}
+Version:	0.26.0
+Release:	1%{?dist}
 Group:		Applications/System
 License:	GPLv2+
 URL:		http://www.gparted.org
@@ -85,6 +85,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_mandir}/man8/gparted.*
 
 %changelog
+* Thu Apr 28 2016 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.26.0-1
+- Update to 0.26.0
+
 * Mon Mar 21 2016 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.25.0-4
 - Change requires to PolicyKit-authentication-agent
 
