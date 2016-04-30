@@ -1,7 +1,7 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
 Version:	0.26.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 Group:		Applications/System
 License:	GPLv2+
 URL:		http://www.gparted.org
@@ -75,9 +75,6 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_sbindir}/gpartedbin
 %{_datadir}/applications/gparted.desktop
 %{_datadir}/icons/hicolor/*/apps/gparted.*
-%if 0%{?fedora} < 24 || 0%{?rhel} < 7
-	%{_datadir}/pixmaps/%{name}.png
-%endif
 %{_datadir}/polkit-1/actions/org.fedoraproject.pkexec.run-gparted.policy
 %{_datadir}/appdata/gparted.appdata.xml
 %{_datadir}/gnome/help/gparted/
@@ -85,6 +82,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_mandir}/man8/gparted.*
 
 %changelog
+* Sat Apr 30 2016 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.26.0-3
+- Get rid of conditionals entirely.
+
 * Sat Apr 30 2016 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.26.0-2
 - Fix if fedora conditionals and add EL conditionals
 
