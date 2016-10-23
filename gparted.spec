@@ -1,6 +1,6 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
-Version:	0.26.1
+Version:	0.27.0
 Release:	1%{?dist}
 Group:		Applications/System
 License:	GPLv2+
@@ -82,6 +82,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_mandir}/man8/gparted.*
 
 %changelog
+* Sat Oct 22 2016 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.27.0-1
+- Update to 0.27.0
+
 * Sat Jun 18 2016 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.26.1-1
 - Update to bugfix release 0.26.1
 
