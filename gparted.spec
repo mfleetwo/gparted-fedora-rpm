@@ -1,7 +1,7 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
 Version:	0.27.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 Group:		Applications/System
 License:	GPLv2+
 URL:		http://gparted.org
@@ -82,6 +82,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_mandir}/man8/gparted.*
 
 %changelog
+* Fri Feb 10 2017 Fedora Release Engineering <releng@fedoraproject.org> - 0.27.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
+
 * Mon Jan 09 2017 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.27.0-2
 - Fix package url
 
