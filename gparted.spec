@@ -1,22 +1,25 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
-Version:	0.29.0
+Version:	0.30.0
 Release:	1%{?dist}
 Group:		Applications/System
 License:	GPLv2+
 URL:		http://gparted.org
 Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
-Source1:	org.fedoraproject.pkexec.run-gparted.policy
-Source2:	gparted_polkit
-# https://bugzilla.redhat.com/show_bug.cgi?id=1258891
-# Upstream bug report and source of patch
-# https://bugzilla.gnome.org/show_bug.cgi?id=755022
-## Patch0:		gparted_0.23_nvme.patch
-BuildRequires:	gtkmm24-devel parted-devel 
-BuildRequires:	libuuid-devel gettext perl(XML::Parser) 
-BuildRequires:	desktop-file-utils gnome-doc-utils intltool
+
+BuildRequires:	gtkmm24-devel
+BuildRequires:	parted-devel
+BuildRequires:	libuuid-devel
+BuildRequires:	gettext
+BuildRequires:	perl(XML::Parser)
+BuildRequires:	desktop-file-utils
+BuildRequires:	gnome-doc-utils
+BuildRequires:	intltool
 BuildRequires:	rarian-compat
 BuildRequires:	pkgconfig
+BuildRequires:	polkit
+BuildRequires:	libappstream-glib
+
 Requires:	PolicyKit-authentication-agent
 
 %description
@@ -28,12 +31,11 @@ will be detected at runtime and don't require a rebuild of GParted
 
 %prep
 %setup -q
-##%%patch0
 sed -i "s:@gksuprog@ @installdir@/gparted %f:@installdir@/gparted_polkit %f:g" gparted.desktop.in.in
 
 %build
-%configure --enable-libparted-dmraid --enable-online-resize
-make %{?_smp_mflags} 
+%configure --enable-libparted-dmraid --enable-online-resize --enable-xhost-root
+make V=1 %{?_smp_mflags}
 
 %install
 make DESTDIR=%{buildroot} install
@@ -48,11 +50,11 @@ desktop-file-install --delete-original			\
 	--add-category GTK				\
 	%{buildroot}%{_datadir}/applications/%{name}.desktop
 
-mkdir -p %{buildroot}%{_datadir}/polkit-1/actions/
-cp %{SOURCE1} %{buildroot}%{_datadir}/polkit-1/actions/
+# install appdata file
+mkdir -p %{buildroot}%{_datadir}/metainfo
+%{__install} -p -m755 %{name}.appdata.xml %{buildroot}%{_datadir}/metainfo
 
-mkdir -p %{buildroot}%{_bindir}
-%{__install} -p -m755 %{SOURCE2} %{buildroot}%{_bindir}/
+appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/%{name}.appdata.xml
 
 %find_lang %{name}
 
@@ -69,19 +71,26 @@ fi
 gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 %files -f %{name}.lang
-%doc AUTHORS COPYING ChangeLog README
-%{_sbindir}/gparted
-%{_bindir}/gparted_polkit
+%license COPYING
+%doc AUTHORS ChangeLog README
+%{_bindir}/%{name}
 %{_sbindir}/gpartedbin
-%{_datadir}/applications/gparted.desktop
+%{_datadir}/applications/%{name}.desktop
+%{_datadir}/metainfo/%{name}.appdata.xml
 %{_datadir}/icons/hicolor/*/apps/gparted.*
-%{_datadir}/polkit-1/actions/org.fedoraproject.pkexec.run-gparted.policy
+%{_datadir}/polkit-1/actions/org.gnome.gparted.policy
 %{_datadir}/appdata/gparted.appdata.xml
 %{_datadir}/gnome/help/gparted/
 %{_datadir}/omf/gparted/
 %{_mandir}/man8/gparted.*
 
 %changelog
+* Mon Oct 23 2017 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.30.0-1
+- Update to 0.30.0
+- Add appdata files
+- Drop fedora pkexec scripts
+- Use pkexec policy from upstream
+
 * Fri Sep 15 2017 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.29.0-1
 - Update to 0.29.0
 
