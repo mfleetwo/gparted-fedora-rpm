@@ -1,7 +1,7 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
-Version:	0.30.0
-Release:	2%{?dist}
+Version:	0.31.0
+Release:	1%{?dist}
 Group:		Applications/System
 License:	GPLv2+
 URL:		http://gparted.org
@@ -35,10 +35,10 @@ sed -i "s:@gksuprog@ @installdir@/gparted %f:@installdir@/gparted_polkit %f:g" g
 
 %build
 %configure --enable-libparted-dmraid --enable-online-resize --enable-xhost-root
-make V=1 %{?_smp_mflags}
+%make_build
 
 %install
-make DESTDIR=%{buildroot} install
+%make_install
 
 sed -i 's#_X-GNOME-FullName#X-GNOME-FullName#' %{buildroot}%{_datadir}/applications/%{name}.desktop
 sed -i 's#sbin#bin#' %{buildroot}%{_datadir}/applications/%{name}.desktop
@@ -58,17 +58,7 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/%{name}.a
 
 %find_lang %{name}
 
-%post
-touch --no-create %{_datadir}/icons/hicolor || :
-
-%postun
-if [ $1 -eq 0 ] ; then
-    touch --no-create %{_datadir}/icons/hicolor &>/dev/null
-    gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
-fi
-
-%posttrans
-gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
+%ldconfig_scriptlets
 
 %files -f %{name}.lang
 %license COPYING
@@ -85,6 +75,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_mandir}/man8/gparted.*
 
 %changelog
+* Mon Mar 19 2018 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.31.0-1
+- Update to 0.31.0
+
 * Wed Feb 07 2018 Fedora Release Engineering <releng@fedoraproject.org> - 0.30.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 
