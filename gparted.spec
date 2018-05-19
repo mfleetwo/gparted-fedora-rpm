@@ -1,7 +1,7 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
 Version:	0.31.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Group:		Applications/System
 License:	GPLv2+
 URL:		http://gparted.org
@@ -15,7 +15,6 @@ BuildRequires:	perl(XML::Parser)
 BuildRequires:	desktop-file-utils
 BuildRequires:	gnome-doc-utils
 BuildRequires:	intltool
-BuildRequires:	rarian-compat
 BuildRequires:	pkgconfig
 BuildRequires:	polkit
 BuildRequires:	libappstream-glib
@@ -75,6 +74,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/%{name}.a
 %{_mandir}/man8/gparted.*
 
 %changelog
+* Fri May 18 2018 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.31.0-2
+- Drop BR:rarian-compat
+
 * Mon Mar 19 2018 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.31.0-1
 - Update to 0.31.0
 
