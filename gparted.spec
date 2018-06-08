@@ -1,7 +1,7 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
 Version:	0.31.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 Group:		Applications/System
 License:	GPLv2+
 URL:		http://gparted.org
@@ -30,7 +30,6 @@ will be detected at runtime and don't require a rebuild of GParted
 
 %prep
 %setup -q
-sed -i "s:@gksuprog@ @installdir@/gparted %f:@installdir@/gparted_polkit %f:g" gparted.desktop.in.in
 
 %build
 %configure --enable-libparted-dmraid --enable-online-resize --enable-xhost-root
@@ -74,6 +73,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/%{name}.a
 %{_mandir}/man8/gparted.*
 
 %changelog
+* Fri Jun 08 2018 Mike Fleetwood <mike.fleetwood@googlemail.com> - 0.31.0-3
+- Remove obsolete edit to the desktop file
+
 * Fri May 18 2018 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.31.0-2
 - Drop BR:rarian-compat
 
