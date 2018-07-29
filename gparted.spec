@@ -48,7 +48,12 @@ desktop-file-install --delete-original			\
         --add-category X-Fedora				\
         --add-category GTK				\
         %{buildroot}%{_datadir}/applications/%{name}.desktop
-sed -i 's#sbin#bin#' %{buildroot}%{_datadir}/applications/fedora-%{name}.desktop
+
+# From GParted 0.30.0, gparted shell wrapper is installed into $prefix/bin and
+# uses pkexec to get root privileges.  Pkexec in EL6 is too old to support
+# running X11 apps as root, so move gparted shell wrapper to $prefix/sbin and
+# continue to use consolehelper as with earlier versions of GParted.
+mv %{buildroot}%{_bindir}/gparted %{buildroot}%{_sbindir}/gparted
 
 #### consolehelper stuff
 mkdir -p %{buildroot}%{_bindir}
@@ -100,6 +105,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 - Update to 0.31.0 (bug #1596865).
 - Drop upstreamed one sector error patch.
 - Match source tarball changed to gz.
+- Replace upstream's pkexec method of launching GParted with EL6's existing
+  consolehelper method.  Pkexec in EL6 is too old to support launching X11 apps
+  as root.
 
 * Thu Oct 08 2015 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.19.1-4
 - Fix bug #1269440
