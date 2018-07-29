@@ -1,19 +1,13 @@
 Summary:	Gnome Partition Editor
 Name:		gparted
-Version:	0.19.1
-Release:	4%{?dist}
+Version:	0.31.0
+Release:	1%{?dist}
 Group:		Applications/System
 License:	GPLv2+
 URL:		http://gparted.sourceforge.net
-Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
+Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
 Source1:	gparted-console.apps
 Source2:	gparted-pam.d
-# patch to fix one sector error
-# source of patch - upstream bug report and Fedora bug report
-# https://bugzilla.redhat.com/show_bug.cgi?id=1269440
-# https://git.gnome.org/browse/gparted/commit/?id=8a952cd4a9fea6d395c05f46d075aaf368011653
-Patch0:		one-sector-error.patch
-
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	gtkmm24-devel parted-devel 
 BuildRequires:	libuuid-devel gettext perl(XML::Parser) 
@@ -33,7 +27,6 @@ will be detected at runtime and don't require a rebuild of GParted
 
 %prep
 %setup -q
-%patch0
 
 %build
 %configure
@@ -103,6 +96,11 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %config(noreplace) %{_sysconfdir}/security/console.apps/gparted
 
 %changelog
+* Sun Jul 29 2018 Mike Fleetwood <mike.fleetwood@googlemail.com> - 0.31.0-1
+- Update to 0.31.0 (bug #1596865).
+- Drop upstreamed one sector error patch.
+- Match source tarball changed to gz.
+
 * Thu Oct 08 2015 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.19.1-4
 - Fix bug #1269440
 
